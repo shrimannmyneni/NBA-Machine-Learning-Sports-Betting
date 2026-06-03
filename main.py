@@ -1,5 +1,6 @@
 import argparse
 from datetime import datetime, timedelta
+from pathlib import Path
 
 import pandas as pd
 import tensorflow as tf
@@ -7,6 +8,8 @@ from colorama import Fore, Style
 
 from src.DataProviders.SbrOddsProvider import SbrOddsProvider
 from src.Predict import NN_Runner, XGBoost_Runner
+from src.Predict.PlayerProps_Runner import props_runner
+from src.Utils import Ranker, Output_Formatter
 from src.Utils.Dictionaries import team_index_current
 from src.Utils.tools import (
     create_todays_games_from_odds,
@@ -19,6 +22,7 @@ from src.Utils.tools import (
 TODAYS_GAMES_URL = "https://data.nba.com/data/10s/v2015/json/mobile_teams/nba/2025/scores/00_todays_scores.json"
 DATA_URL = "https://stats.nba.com/stats/leaguedashteamstats?Conference=&DateFrom=&DateTo=&Division=&GameScope=&GameSegment=&Height=&ISTRound=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2025-26&SeasonSegment=&SeasonType=Regular%20Season&ShotClockRange=&StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision="
 SCHEDULE_PATH = "Data/nba-2025-UTC.csv"
+DEFAULT_PROPS_CSV = "tmp_data/props.csv"
 
 
 def create_todays_games_data(games, df, odds, schedule_df, today):
@@ -115,18 +119,18 @@ def resolve_games(odds, sportsbook):
 
 
 def run_models(data, normalized_data, todays_games_uo, frame_ml, games, home_team_odds, away_team_odds, args):
+    results = []
     if args.xgb:
-        print("---------------XGBoost Model Predictions---------------")
-        XGBoost_Runner.xgb_runner(
+        xgb_results = XGBoost_Runner.xgb_runner(
             data, todays_games_uo, frame_ml, games, home_team_odds, away_team_odds, args.kc
         )
-        print("-------------------------------------------------------")
+        results.extend(xgb_results or [])
     if args.nn:
-        print("------------Neural Network Model Predictions-----------")
-        NN_Runner.nn_runner(
+        nn_results = NN_Runner.nn_runner(
             normalized_data, todays_games_uo, frame_ml, games, home_team_odds, away_team_odds, args.kc
         )
-        print("-------------------------------------------------------")
+        results.extend(nn_results or [])
+    return results
 
 
 def main(args):
@@ -150,7 +154,7 @@ def main(args):
         args.nn = True
 
     normalized_data = tf.keras.utils.normalize(data, axis=1) if args.nn else None
-    run_models(
+    all_bets = run_models(
         data,
         normalized_data,
         todays_games_uo,
@@ -161,6 +165,21 @@ def main(args):
         args,
     )
 
+    # Player props (parallel pipeline — does not touch team-level data)
+    if args.props:
+        props_csv = args.props_csv or DEFAULT_PROPS_CSV
+        csv_path = Path(props_csv)
+        if csv_path.exists():
+            prop_bets = props_runner(csv_path)
+            all_bets.extend(prop_bets)
+        else:
+            print(f"[props] CSV not found at {props_csv}. Skipping props.")
+
+    if all_bets:
+        print("\n-----------Top Ranked Bets (Weighted Bet Value)----------")
+        top_bets = Ranker.rank_bets(all_bets, top_n=10)
+        Output_Formatter.print_ranked_table(top_bets)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Model to Run')
@@ -169,5 +188,7 @@ if __name__ == "__main__":
     parser.add_argument('-A', action='store_true', help='Run all Models')
     parser.add_argument('-odds', help='Sportsbook to fetch from. (fanduel, draftkings, betmgm, pointsbet, caesars, wynn, bet_rivers_ny')
     parser.add_argument('-kc', action='store_true', help='Calculates percentage of bankroll to bet based on model edge')
+    parser.add_argument('-props', action='store_true', help='Include player props bets in ranked output')
+    parser.add_argument('-props-csv', dest='props_csv', default=None, help=f'Path to props CSV (default: {DEFAULT_PROPS_CSV})')
     args = parser.parse_args()
     main(args)

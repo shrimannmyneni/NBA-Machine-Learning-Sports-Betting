@@ -4,12 +4,9 @@ from pathlib import Path
 
 import numpy as np
 import tensorflow as tf
-from colorama import Fore, Style, init, deinit
 from keras.models import load_model
 from src.Utils import Expected_Value
 from src.Utils import Kelly_Criterion as kc
-
-init()
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 MODEL_DIR = BASE_DIR / "Models"
@@ -64,84 +61,59 @@ def nn_runner(data, todays_games_uo, frame_ml, games, home_team_odds, away_team_
     _load_models()
 
     ml_predictions_array = []
-
     for row in data:
         ml_predictions_array.append(_model.predict(np.array([row])))
 
     frame_uo = copy.deepcopy(frame_ml)
     frame_uo['OU'] = np.asarray(todays_games_uo)
-    data = frame_uo.values
-    data = data.astype(float)
-    data = tf.keras.utils.normalize(data, axis=1)
+    uo_data = frame_uo.values.astype(float)
+    uo_data = tf.keras.utils.normalize(uo_data, axis=1)
 
     ou_predictions_array = []
-
-    for row in data:
+    for row in uo_data:
         ou_predictions_array.append(_ou_model.predict(np.array([row])))
 
-    count = 0
-    for game in games:
-        home_team = game[0]
-        away_team = game[1]
-        winner = int(np.argmax(ml_predictions_array[count]))
-        under_over = int(np.argmax(ou_predictions_array[count]))
-        winner_confidence = ml_predictions_array[count]
-        un_confidence = ou_predictions_array[count]
-        if winner == 1:
-            winner_confidence = round(winner_confidence[0][1] * 100, 1)
-            if under_over == 0:
-                un_confidence = round(ou_predictions_array[count][0][0] * 100, 1)
-                print(
-                    Fore.GREEN + home_team + Style.RESET_ALL + Fore.CYAN + f" ({winner_confidence}%)" + Style.RESET_ALL + ' vs ' + Fore.RED + away_team + Style.RESET_ALL + ': ' +
-                    Fore.MAGENTA + 'UNDER ' + Style.RESET_ALL + str(todays_games_uo[
-                                                                        count]) + Style.RESET_ALL + Fore.CYAN + f" ({un_confidence}%)" + Style.RESET_ALL)
-            else:
-                un_confidence = round(ou_predictions_array[count][0][1] * 100, 1)
-                print(
-                    Fore.GREEN + home_team + Style.RESET_ALL + Fore.CYAN + f" ({winner_confidence}%)" + Style.RESET_ALL + ' vs ' + Fore.RED + away_team + Style.RESET_ALL + ': ' +
-                    Fore.BLUE + 'OVER ' + Style.RESET_ALL + str(todays_games_uo[
-                                                                    count]) + Style.RESET_ALL + Fore.CYAN + f" ({un_confidence}%)" + Style.RESET_ALL)
-        else:
-            winner_confidence = round(winner_confidence[0][0] * 100, 1)
-            if under_over == 0:
-                un_confidence = round(ou_predictions_array[count][0][0] * 100, 1)
-                print(
-                    Fore.RED + home_team + Style.RESET_ALL + ' vs ' + Fore.GREEN + away_team + Style.RESET_ALL + Fore.CYAN + f" ({winner_confidence}%)" + Style.RESET_ALL + ': ' +
-                    Fore.MAGENTA + 'UNDER ' + Style.RESET_ALL + str(todays_games_uo[
-                                                                        count]) + Style.RESET_ALL + Fore.CYAN + f" ({un_confidence}%)" + Style.RESET_ALL)
-            else:
-                un_confidence = round(ou_predictions_array[count][0][1] * 100, 1)
-                print(
-                    Fore.RED + home_team + Style.RESET_ALL + ' vs ' + Fore.GREEN + away_team + Style.RESET_ALL + Fore.CYAN + f" ({winner_confidence}%)" + Style.RESET_ALL + ': ' +
-                    Fore.BLUE + 'OVER ' + Style.RESET_ALL + str(todays_games_uo[
-                                                                    count]) + Style.RESET_ALL + Fore.CYAN + f" ({un_confidence}%)" + Style.RESET_ALL)
-        count += 1
-    if kelly_criterion:
-        print("------------Expected Value & Kelly Criterion-----------")
-    else:
-        print("---------------------Expected Value--------------------")
-    count = 0
-    for game in games:
-        home_team = game[0]
-        away_team = game[1]
-        ev_home = ev_away = 0
-        if home_team_odds[count] and away_team_odds[count]:
-            ev_home = float(
-                Expected_Value.expected_value(ml_predictions_array[count][0][1], int(home_team_odds[count])))
-            ev_away = float(
-                Expected_Value.expected_value(ml_predictions_array[count][0][0], int(away_team_odds[count])))
-        expected_value_colors = {'home_color': Fore.GREEN if ev_home > 0 else Fore.RED,
-                                 'away_color': Fore.GREEN if ev_away > 0 else Fore.RED}
-        bankroll_descriptor = ' Fraction of Bankroll: '
-        bankroll_fraction_home = bankroll_descriptor + str(
-            kc.calculate_kelly_criterion(home_team_odds[count], ml_predictions_array[count][0][1])) + '%'
-        bankroll_fraction_away = bankroll_descriptor + str(
-            kc.calculate_kelly_criterion(away_team_odds[count], ml_predictions_array[count][0][0])) + '%'
+    results = []
+    for idx, game in enumerate(games):
+        home_team, away_team = game
 
-        print(home_team + ' EV: ' + expected_value_colors['home_color'] + str(ev_home) + Style.RESET_ALL + (
-            bankroll_fraction_home if kelly_criterion else ''))
-        print(away_team + ' EV: ' + expected_value_colors['away_color'] + str(ev_away) + Style.RESET_ALL + (
-            bankroll_fraction_away if kelly_criterion else ''))
-        count += 1
+        # ml_predictions_array[idx] has shape (1, 2): [[p_away, p_home]]
+        p_home = float(ml_predictions_array[idx][0][1])
+        p_away = float(ml_predictions_array[idx][0][0])
 
-    deinit()
+        winner = int(np.argmax(ml_predictions_array[idx]))
+        under_over = int(np.argmax(ou_predictions_array[idx]))
+        winner_confidence = round(ml_predictions_array[idx][0][winner] * 100, 1)
+        ou_confidence = round(ou_predictions_array[idx][0][under_over] * 100, 1)
+        ou_label = "UNDER" if under_over == 0 else "OVER"
+
+        ev_home = ev_away = 0.0
+        kelly_home = kelly_away = 0.0
+        if home_team_odds[idx] and away_team_odds[idx]:
+            ev_home = float(Expected_Value.expected_value(p_home, int(home_team_odds[idx])))
+            ev_away = float(Expected_Value.expected_value(p_away, int(away_team_odds[idx])))
+            kelly_home = kc.calculate_kelly_criterion(home_team_odds[idx], p_home)
+            kelly_away = kc.calculate_kelly_criterion(away_team_odds[idx], p_away)
+
+        ou_note = f"{ou_label} {todays_games_uo[idx]} ({ou_confidence}%)"
+
+        results.append({
+            "team_or_player": home_team,
+            "event": f"ML vs {away_team} | {ou_note}",
+            "odds": int(home_team_odds[idx]) if home_team_odds[idx] else None,
+            "ev": ev_home,
+            "kelly": kelly_home,
+            "confidence": p_home,
+            "model": "NN",
+        })
+        results.append({
+            "team_or_player": away_team,
+            "event": f"ML @ {home_team} | {ou_note}",
+            "odds": int(away_team_odds[idx]) if away_team_odds[idx] else None,
+            "ev": ev_away,
+            "kelly": kelly_away,
+            "confidence": p_away,
+            "model": "NN",
+        })
+
+    return results

@@ -109,3 +109,6 @@ venv.bak/
 priv/
 temp/
 *.temp
+
+# Player props scrape cache and formatted CSVs — not committed
+tmp_data/
