@@ -1,0 +1,8 @@
+The README now has a 4-step "Before running (game day)" section inserted right before Quick start:
+
+1. Get_Data — refresh team stats
+2. Odds — automatic via -odds flag, no manual step
+3. (Props) Prep the CSV from Perplexity→Claude
+4. (Props, optional) Create_PlayerProps_Games to build props_dataset with BRef defensive features
+
+The flags list under Quick start also now documents -props and -props-csv.
