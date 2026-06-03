@@ -26,6 +26,25 @@ Install dependencies:
 pip3 install -r requirements.txt
 ```
 
+## Before running (game day)
+
+Steps to run each day before calling `main.py`:
+
+1. **Update team stats** — pulls the latest rolling averages from stats.nba.com into `TeamData.sqlite`:
+   ```bash
+   python -m src.Process-Data.Get_Data
+   ```
+
+2. **Odds** — no manual step needed. Pass `-odds <sportsbook>` at runtime and they are fetched automatically.
+
+3. ***(Props only)* Prepare the props CSV** — run your Perplexity → Claude formatting pipeline and save the output to `tmp_data/props.csv`. Required columns: `Player, Team, Opponent, PropType, Line, Odds, Sportsbook`. Optional columns: `Direction` (default `OVER`), `ModelProb` (float 0–1 win probability from your model or Claude).
+
+4. ***(Props only, optional)* Build the props dataset** — merges your CSV with Basketball Reference opponent defensive stats into `Data/props_dataset.sqlite`:
+   ```bash
+   python -m src.Process-Data.Create_PlayerProps_Games --csv tmp_data/props.csv
+   ```
+   Skip this if you just want EV rankings without defensive features.
+
 ## Quick start
 ```bash
 python3 main.py -xgb -odds=fanduel
@@ -41,6 +60,8 @@ Optional flags:
 - `-xgb` run XGBoost model
 - `-A` run all models
 - `-kc` show Kelly Criterion bankroll fraction
+- `-props` include player props in the ranked output (reads `tmp_data/props.csv` by default)
+- `-props-csv PATH` override the props CSV path
 
 ## Flask web app
 <img src="https://github.com/kyleskom/NBA-Machine-Learning-Sports-Betting/blob/master/Screenshots/Flask-App.png" width="922" height="580" />
