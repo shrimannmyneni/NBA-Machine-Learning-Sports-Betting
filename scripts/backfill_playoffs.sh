@@ -100,10 +100,99 @@ for g in games:
 PYEOF
 )
 
-# Fall back to the one confirmed game if BRef page isn't available yet
+# Fall back to hardcoded 2026 playoff schedule if BRef page isn't available
 if [[ -z "$GAME_LIST" ]]; then
-    ts "BRef schedule page unavailable — using known games as fallback"
-    GAME_LIST="2026-06-03|San Antonio Spurs|New York Knicks"
+    ts "BRef schedule page unavailable — using hardcoded 2026 playoff schedule"
+    GAME_LIST=$(cat <<'GAMES'
+2026-04-14|Portland Trail Blazers|Phoenix Suns
+2026-04-14|Miami Heat|Charlotte Hornets
+2026-04-15|Philadelphia 76ers|Orlando Magic
+2026-04-15|Los Angeles Clippers|Golden State Warriors
+2026-04-17|Orlando Magic|Charlotte Hornets
+2026-04-17|Phoenix Suns|Golden State Warriors
+2026-04-18|Cleveland Cavaliers|Toronto Raptors
+2026-04-18|Denver Nuggets|Minnesota Timberwolves
+2026-04-18|New York Knicks|Atlanta Hawks
+2026-04-18|Los Angeles Lakers|Houston Rockets
+2026-04-19|Boston Celtics|Philadelphia 76ers
+2026-04-19|Oklahoma City Thunder|Phoenix Suns
+2026-04-19|Detroit Pistons|Orlando Magic
+2026-04-19|San Antonio Spurs|Portland Trail Blazers
+2026-04-20|Cleveland Cavaliers|Toronto Raptors
+2026-04-20|New York Knicks|Atlanta Hawks
+2026-04-20|Denver Nuggets|Minnesota Timberwolves
+2026-04-21|Boston Celtics|Philadelphia 76ers
+2026-04-21|San Antonio Spurs|Portland Trail Blazers
+2026-04-21|Los Angeles Lakers|Houston Rockets
+2026-04-22|Detroit Pistons|Orlando Magic
+2026-04-22|Oklahoma City Thunder|Phoenix Suns
+2026-04-23|New York Knicks|Atlanta Hawks
+2026-04-23|Cleveland Cavaliers|Toronto Raptors
+2026-04-23|Denver Nuggets|Minnesota Timberwolves
+2026-04-24|Boston Celtics|Philadelphia 76ers
+2026-04-24|Los Angeles Lakers|Houston Rockets
+2026-04-24|San Antonio Spurs|Portland Trail Blazers
+2026-04-25|Detroit Pistons|Orlando Magic
+2026-04-25|Oklahoma City Thunder|Phoenix Suns
+2026-04-25|New York Knicks|Atlanta Hawks
+2026-04-25|Denver Nuggets|Minnesota Timberwolves
+2026-04-26|Cleveland Cavaliers|Toronto Raptors
+2026-04-26|San Antonio Spurs|Portland Trail Blazers
+2026-04-26|Boston Celtics|Philadelphia 76ers
+2026-04-26|Los Angeles Lakers|Houston Rockets
+2026-04-27|Detroit Pistons|Orlando Magic
+2026-04-27|Oklahoma City Thunder|Phoenix Suns
+2026-04-27|Denver Nuggets|Minnesota Timberwolves
+2026-04-28|Boston Celtics|Philadelphia 76ers
+2026-04-28|Atlanta Hawks|New York Knicks
+2026-04-28|Portland Trail Blazers|San Antonio Spurs
+2026-04-29|Orlando Magic|Detroit Pistons
+2026-04-29|Toronto Raptors|Cleveland Cavaliers
+2026-04-29|Houston Rockets|Los Angeles Lakers
+2026-04-30|Atlanta Hawks|New York Knicks
+2026-04-30|Boston Celtics|Philadelphia 76ers
+2026-04-30|Denver Nuggets|Minnesota Timberwolves
+2026-05-01|Orlando Magic|Detroit Pistons
+2026-05-01|Cleveland Cavaliers|Toronto Raptors
+2026-05-01|Houston Rockets|Los Angeles Lakers
+2026-05-02|Boston Celtics|Philadelphia 76ers
+2026-05-03|Orlando Magic|Detroit Pistons
+2026-05-03|Toronto Raptors|Cleveland Cavaliers
+2026-05-04|Philadelphia 76ers|New York Knicks
+2026-05-04|Minnesota Timberwolves|San Antonio Spurs
+2026-05-05|Cleveland Cavaliers|Detroit Pistons
+2026-05-05|Los Angeles Lakers|Oklahoma City Thunder
+2026-05-06|New York Knicks|Philadelphia 76ers
+2026-05-06|San Antonio Spurs|Minnesota Timberwolves
+2026-05-07|Cleveland Cavaliers|Detroit Pistons
+2026-05-07|Los Angeles Lakers|Oklahoma City Thunder
+2026-05-08|New York Knicks|Philadelphia 76ers
+2026-05-08|San Antonio Spurs|Minnesota Timberwolves
+2026-05-09|Detroit Pistons|Cleveland Cavaliers
+2026-05-09|Los Angeles Lakers|Oklahoma City Thunder
+2026-05-10|Philadelphia 76ers|New York Knicks
+2026-05-10|Minnesota Timberwolves|San Antonio Spurs
+2026-05-11|Detroit Pistons|Cleveland Cavaliers
+2026-05-11|Los Angeles Lakers|Oklahoma City Thunder
+2026-05-12|Minnesota Timberwolves|San Antonio Spurs
+2026-05-13|Detroit Pistons|Cleveland Cavaliers
+2026-05-15|Cleveland Cavaliers|Detroit Pistons
+2026-05-15|Minnesota Timberwolves|San Antonio Spurs
+2026-05-17|Detroit Pistons|Cleveland Cavaliers
+2026-05-18|Oklahoma City Thunder|San Antonio Spurs
+2026-05-19|Cleveland Cavaliers|New York Knicks
+2026-05-20|San Antonio Spurs|Oklahoma City Thunder
+2026-05-21|Cleveland Cavaliers|New York Knicks
+2026-05-22|Oklahoma City Thunder|San Antonio Spurs
+2026-05-23|New York Knicks|Cleveland Cavaliers
+2026-05-24|San Antonio Spurs|Oklahoma City Thunder
+2026-05-25|New York Knicks|Cleveland Cavaliers
+2026-05-26|Oklahoma City Thunder|San Antonio Spurs
+2026-05-28|San Antonio Spurs|Oklahoma City Thunder
+2026-05-30|Oklahoma City Thunder|San Antonio Spurs
+2026-06-03|San Antonio Spurs|New York Knicks
+GAMES
+)
 fi
 
 TOTAL=$(echo "$GAME_LIST" | grep -c '|' 2>/dev/null || echo 0)

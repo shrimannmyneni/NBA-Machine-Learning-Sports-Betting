@@ -1,0 +1,175 @@
+Player,Team,Opponent,PropType,Line,Odds,Sportsbook,Direction,ModelProb,Actual,Hit
+Spencer Jones,Denver Nuggets,Minnesota Timberwolves,Points,5.5,-114,DraftKings,OVER,,20.0,1
+Spencer Jones,Denver Nuggets,Minnesota Timberwolves,Points,4.5,-130,BetMGM,OVER,,20.0,1
+Spencer Jones,Denver Nuggets,Minnesota Timberwolves,Points,5.5,-111,DraftKings,UNDER,,20.0,0
+Spencer Jones,Denver Nuggets,Minnesota Timberwolves,Points,4.5,-105,BetMGM,UNDER,,20.0,0
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,Points,11.5,-124,DraftKings,OVER,,8.0,0
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,Points,12.5,-104,BetMGM,OVER,,8.0,0
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,Points,11.5,-103,DraftKings,UNDER,,8.0,1
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,Points,12.5,-132,BetMGM,UNDER,,8.0,1
+Bruce Brown Jr.,Denver Nuggets,Minnesota Timberwolves,Points,7.5,-107,DraftKings,OVER,,,
+Bruce Brown Jr.,Denver Nuggets,Minnesota Timberwolves,Points,6.5,-127,BetMGM,OVER,,,
+Bruce Brown Jr.,Denver Nuggets,Minnesota Timberwolves,Points,7.5,-119,DraftKings,UNDER,,,
+Bruce Brown Jr.,Denver Nuggets,Minnesota Timberwolves,Points,6.5,-108,BetMGM,UNDER,,,
+Mike Conley,Minnesota Timberwolves,Denver Nuggets,Points,5.5,-138,DraftKings,OVER,,4.0,0
+Mike Conley,Minnesota Timberwolves,Denver Nuggets,Points,5.5,-117,BetMGM,OVER,,4.0,0
+Mike Conley,Minnesota Timberwolves,Denver Nuggets,Points,5.5,108,DraftKings,UNDER,,4.0,1
+Mike Conley,Minnesota Timberwolves,Denver Nuggets,Points,5.5,-117,BetMGM,UNDER,,4.0,1
+Cameron Johnson,Denver Nuggets,Minnesota Timberwolves,Points,11.5,-112,DraftKings,OVER,,18.0,1
+Cameron Johnson,Denver Nuggets,Minnesota Timberwolves,Points,11.5,-115,BetMGM,OVER,,18.0,1
+Cameron Johnson,Denver Nuggets,Minnesota Timberwolves,Points,11.5,-113,DraftKings,UNDER,,18.0,0
+Cameron Johnson,Denver Nuggets,Minnesota Timberwolves,Points,11.5,-118,BetMGM,UNDER,,18.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Points,19.5,-111,FanDuel,OVER,,18.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Points,19.5,-109,DraftKings,OVER,,18.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Points,19.5,-124,BetMGM,OVER,,18.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Points,19.5,-115,FanDuel,UNDER,,18.0,1
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Points,19.5,-117,DraftKings,UNDER,,18.0,1
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Points,19.5,-110,BetMGM,UNDER,,18.0,1
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,Points,12.5,-108,DraftKings,OVER,,12.0,0
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,Points,12.5,-129,BetMGM,OVER,,12.0,0
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,Points,12.5,-118,DraftKings,UNDER,,12.0,1
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,Points,12.5,-105,BetMGM,UNDER,,12.0,1
+Jamal Murray,Denver Nuggets,Minnesota Timberwolves,Points,27.5,-113,FanDuel,OVER,,24.0,0
+Jamal Murray,Denver Nuggets,Minnesota Timberwolves,Points,27.5,-117,DraftKings,OVER,,24.0,0
+Jamal Murray,Denver Nuggets,Minnesota Timberwolves,Points,28.5,-107,BetMGM,OVER,,24.0,0
+Jamal Murray,Denver Nuggets,Minnesota Timberwolves,Points,27.5,-113,FanDuel,UNDER,,24.0,1
+Jamal Murray,Denver Nuggets,Minnesota Timberwolves,Points,27.5,-109,DraftKings,UNDER,,24.0,1
+Jamal Murray,Denver Nuggets,Minnesota Timberwolves,Points,28.5,-127,BetMGM,UNDER,,24.0,1
+Aaron Gordon,Denver Nuggets,Minnesota Timberwolves,Points,10.5,-121,DraftKings,OVER,,,
+Aaron Gordon,Denver Nuggets,Minnesota Timberwolves,Points,10.5,-105,BetMGM,OVER,,,
+Aaron Gordon,Denver Nuggets,Minnesota Timberwolves,Points,10.5,-105,DraftKings,UNDER,,,
+Aaron Gordon,Denver Nuggets,Minnesota Timberwolves,Points,10.5,-130,BetMGM,UNDER,,,
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Points,9.5,-120,FanDuel,OVER,,3.0,0
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Points,9.5,-116,DraftKings,OVER,,3.0,0
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Points,10.5,-104,BetMGM,OVER,,3.0,0
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Points,9.5,-104,FanDuel,UNDER,,3.0,1
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Points,9.5,-110,DraftKings,UNDER,,3.0,1
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Points,10.5,-132,BetMGM,UNDER,,3.0,1
+Bruce Brown Jr.,Denver Nuggets,Minnesota Timberwolves,Rebounds,3.5,-143,DraftKings,OVER,,,
+Bruce Brown Jr.,Denver Nuggets,Minnesota Timberwolves,Rebounds,3.5,-132,BetMGM,OVER,,,
+Bruce Brown Jr.,Denver Nuggets,Minnesota Timberwolves,Rebounds,3.5,108,DraftKings,UNDER,,,
+Bruce Brown Jr.,Denver Nuggets,Minnesota Timberwolves,Rebounds,3.5,-104,BetMGM,UNDER,,,
+Nikola Jokic,Denver Nuggets,Minnesota Timberwolves,Rebounds,13.5,-140,FanDuel,OVER,,,
+Nikola Jokic,Denver Nuggets,Minnesota Timberwolves,Rebounds,13.5,-122,DraftKings,OVER,,,
+Nikola Jokic,Denver Nuggets,Minnesota Timberwolves,Rebounds,14.5,106,BetMGM,OVER,,,
+Nikola Jokic,Denver Nuggets,Minnesota Timberwolves,Rebounds,13.5,110,FanDuel,UNDER,,,
+Nikola Jokic,Denver Nuggets,Minnesota Timberwolves,Rebounds,13.5,-107,DraftKings,UNDER,,,
+Nikola Jokic,Denver Nuggets,Minnesota Timberwolves,Rebounds,14.5,-143,BetMGM,UNDER,,,
+Christian Braun,Denver Nuggets,Minnesota Timberwolves,Rebounds,4.5,-122,DraftKings,OVER,,2.0,0
+Christian Braun,Denver Nuggets,Minnesota Timberwolves,Rebounds,4.5,-143,BetMGM,OVER,,2.0,0
+Christian Braun,Denver Nuggets,Minnesota Timberwolves,Rebounds,4.5,-108,DraftKings,UNDER,,2.0,1
+Christian Braun,Denver Nuggets,Minnesota Timberwolves,Rebounds,4.5,105,BetMGM,UNDER,,2.0,1
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Rebounds,10.5,-140,FanDuel,OVER,,7.0,0
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Rebounds,10.5,-134,DraftKings,OVER,,7.0,0
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Rebounds,10.5,-130,BetMGM,OVER,,7.0,0
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Rebounds,10.5,110,FanDuel,UNDER,,7.0,1
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Rebounds,10.5,102,DraftKings,UNDER,,7.0,1
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Rebounds,10.5,-105,BetMGM,UNDER,,7.0,1
+Bones Hyland,Minnesota Timberwolves,Denver Nuggets,Rebounds,2.5,124,DraftKings,OVER,,1.0,0
+Bones Hyland,Minnesota Timberwolves,Denver Nuggets,Rebounds,2.5,-163,DraftKings,UNDER,,1.0,1
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,Rebounds,5.5,-111,DraftKings,OVER,,8.0,1
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,Rebounds,5.5,-132,BetMGM,OVER,,8.0,1
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,Rebounds,5.5,-119,DraftKings,UNDER,,8.0,0
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,Rebounds,5.5,-104,BetMGM,UNDER,,8.0,0
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,Rebounds,2.5,-112,DraftKings,OVER,,0.0,0
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,Rebounds,2.5,-129,BetMGM,OVER,,0.0,0
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,Rebounds,2.5,-118,DraftKings,UNDER,,0.0,1
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,Rebounds,2.5,-106,BetMGM,UNDER,,0.0,1
+Jaden McDaniels,Minnesota Timberwolves,Denver Nuggets,Rebounds,4.5,-142,FanDuel,OVER,,3.0,0
+Jaden McDaniels,Minnesota Timberwolves,Denver Nuggets,Rebounds,5.5,119,DraftKings,OVER,,3.0,0
+Jaden McDaniels,Minnesota Timberwolves,Denver Nuggets,Rebounds,5.5,120,BetMGM,OVER,,3.0,0
+Jaden McDaniels,Minnesota Timberwolves,Denver Nuggets,Rebounds,4.5,112,FanDuel,UNDER,,3.0,1
+Jaden McDaniels,Minnesota Timberwolves,Denver Nuggets,Rebounds,5.5,-157,DraftKings,UNDER,,3.0,1
+Jaden McDaniels,Minnesota Timberwolves,Denver Nuggets,Rebounds,5.5,-165,BetMGM,UNDER,,3.0,1
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,Rebounds,6.5,-148,FanDuel,OVER,,9.0,1
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,Rebounds,6.5,-139,DraftKings,OVER,,9.0,1
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,Rebounds,6.5,-155,BetMGM,OVER,,9.0,1
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,Rebounds,6.5,116,FanDuel,UNDER,,9.0,0
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,Rebounds,6.5,105,DraftKings,UNDER,,9.0,0
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,Rebounds,6.5,114,BetMGM,UNDER,,9.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Rebounds,4.5,-130,FanDuel,OVER,,3.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Rebounds,4.5,-116,DraftKings,OVER,,3.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Rebounds,4.5,-143,BetMGM,OVER,,3.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Rebounds,4.5,102,FanDuel,UNDER,,3.0,1
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Rebounds,4.5,-113,DraftKings,UNDER,,3.0,1
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Rebounds,4.5,105,BetMGM,UNDER,,3.0,1
+Jamal Murray,Denver Nuggets,Minnesota Timberwolves,Assists,6.5,-142,FanDuel,OVER,,7.0,1
+Jamal Murray,Denver Nuggets,Minnesota Timberwolves,Assists,6.5,-121,DraftKings,OVER,,7.0,1
+Jamal Murray,Denver Nuggets,Minnesota Timberwolves,Assists,6.5,-155,BetMGM,OVER,,7.0,1
+Jamal Murray,Denver Nuggets,Minnesota Timberwolves,Assists,6.5,112,FanDuel,UNDER,,7.0,0
+Jamal Murray,Denver Nuggets,Minnesota Timberwolves,Assists,6.5,-109,DraftKings,UNDER,,7.0,0
+Jamal Murray,Denver Nuggets,Minnesota Timberwolves,Assists,6.5,114,BetMGM,UNDER,,7.0,0
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,Assists,4.5,-130,FanDuel,OVER,,6.0,1
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,Assists,4.5,-116,DraftKings,OVER,,6.0,1
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,Assists,4.5,-157,BetMGM,OVER,,6.0,1
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,Assists,4.5,102,FanDuel,UNDER,,6.0,0
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,Assists,4.5,-113,DraftKings,UNDER,,6.0,0
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,Assists,4.5,115,BetMGM,UNDER,,6.0,0
+Nikola Jokic,Denver Nuggets,Minnesota Timberwolves,Assists,9.5,-113,FanDuel,OVER,,,
+Nikola Jokic,Denver Nuggets,Minnesota Timberwolves,Assists,9.5,-117,DraftKings,OVER,,,
+Nikola Jokic,Denver Nuggets,Minnesota Timberwolves,Assists,9.5,-132,BetMGM,OVER,,,
+Nikola Jokic,Denver Nuggets,Minnesota Timberwolves,Assists,9.5,-113,FanDuel,UNDER,,,
+Nikola Jokic,Denver Nuggets,Minnesota Timberwolves,Assists,9.5,-112,DraftKings,UNDER,,,
+Nikola Jokic,Denver Nuggets,Minnesota Timberwolves,Assists,9.5,-104,BetMGM,UNDER,,,
+Bones Hyland,Minnesota Timberwolves,Denver Nuggets,Assists,3.5,128,DraftKings,OVER,,1.0,0
+Bones Hyland,Minnesota Timberwolves,Denver Nuggets,Assists,3.5,112,BetMGM,OVER,,1.0,0
+Bones Hyland,Minnesota Timberwolves,Denver Nuggets,Assists,3.5,-169,DraftKings,UNDER,,1.0,1
+Bones Hyland,Minnesota Timberwolves,Denver Nuggets,Assists,3.5,-152,BetMGM,UNDER,,1.0,1
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Assists,4.5,-122,FanDuel,OVER,,4.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Assists,4.5,-128,DraftKings,OVER,,4.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Assists,4.5,-127,BetMGM,OVER,,4.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Assists,4.5,-104,FanDuel,UNDER,,4.0,1
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Assists,4.5,-103,DraftKings,UNDER,,4.0,1
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,Assists,4.5,-108,BetMGM,UNDER,,4.0,1
+Bruce Brown Jr.,Denver Nuggets,Minnesota Timberwolves,Assists,2.5,124,DraftKings,OVER,,,
+Bruce Brown Jr.,Denver Nuggets,Minnesota Timberwolves,Assists,2.5,-163,DraftKings,UNDER,,,
+Cameron Johnson,Denver Nuggets,Minnesota Timberwolves,Assists,2.5,137,DraftKings,OVER,,5.0,1
+Cameron Johnson,Denver Nuggets,Minnesota Timberwolves,Assists,2.5,-182,DraftKings,UNDER,,5.0,0
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,Assists,1.5,-146,DraftKings,OVER,,1.0,0
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,Assists,1.5,111,DraftKings,UNDER,,1.0,1
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Assists,1.5,118,DraftKings,OVER,,2.0,1
+Rudy Gobert,Minnesota Timberwolves,Denver Nuggets,Assists,1.5,-156,DraftKings,UNDER,,2.0,0
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,Assists,1.5,133,DraftKings,OVER,,0.0,0
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,Assists,1.5,-176,DraftKings,UNDER,,0.0,1
+Cameron Johnson,Denver Nuggets,Minnesota Timberwolves,3-Pointers,1.5,-154,FanDuel,OVER,,2.0,1
+Cameron Johnson,Denver Nuggets,Minnesota Timberwolves,3-Pointers,1.5,-143,DraftKings,OVER,,2.0,1
+Cameron Johnson,Denver Nuggets,Minnesota Timberwolves,3-Pointers,1.5,-167,BetMGM,OVER,,2.0,1
+Cameron Johnson,Denver Nuggets,Minnesota Timberwolves,3-Pointers,1.5,120,FanDuel,UNDER,,2.0,0
+Cameron Johnson,Denver Nuggets,Minnesota Timberwolves,3-Pointers,1.5,109,DraftKings,UNDER,,2.0,0
+Cameron Johnson,Denver Nuggets,Minnesota Timberwolves,3-Pointers,1.5,120,BetMGM,UNDER,,2.0,0
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,124,FanDuel,OVER,,2.0,1
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,115,DraftKings,OVER,,2.0,1
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,100,BetMGM,OVER,,2.0,1
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-158,FanDuel,UNDER,,2.0,0
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-152,DraftKings,UNDER,,2.0,0
+Julius Randle,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-136,BetMGM,UNDER,,2.0,0
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,3-Pointers,2.5,110,DraftKings,OVER,,1.0,0
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,3-Pointers,2.5,128,BetMGM,OVER,,1.0,0
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,3-Pointers,2.5,-145,DraftKings,UNDER,,1.0,1
+Tim Hardaway Jr.,Denver Nuggets,Minnesota Timberwolves,3-Pointers,2.5,-177,BetMGM,UNDER,,1.0,1
+Aaron Gordon,Denver Nuggets,Minnesota Timberwolves,3-Pointers,1.5,169,DraftKings,OVER,,,
+Aaron Gordon,Denver Nuggets,Minnesota Timberwolves,3-Pointers,1.5,-226,DraftKings,UNDER,,,
+Terrence Shannon Jr.,Minnesota Timberwolves,Denver Nuggets,3-Pointers,0.5,139,DraftKings,OVER,,2.0,1
+Terrence Shannon Jr.,Minnesota Timberwolves,Denver Nuggets,3-Pointers,0.5,-184,DraftKings,UNDER,,2.0,0
+Jaden McDaniels,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,114,FanDuel,OVER,,0.0,0
+Jaden McDaniels,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-101,DraftKings,OVER,,0.0,0
+Jaden McDaniels,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-106,BetMGM,OVER,,0.0,0
+Jaden McDaniels,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-146,FanDuel,UNDER,,0.0,1
+Jaden McDaniels,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-131,DraftKings,UNDER,,0.0,1
+Jaden McDaniels,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-129,BetMGM,UNDER,,0.0,1
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-178,FanDuel,OVER,,3.0,1
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-191,DraftKings,OVER,,3.0,1
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-200,BetMGM,OVER,,3.0,1
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,138,FanDuel,UNDER,,3.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,144,DraftKings,UNDER,,3.0,0
+Ayo Dosunmu,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,143,BetMGM,UNDER,,3.0,0
+Christian Braun,Denver Nuggets,Minnesota Timberwolves,3-Pointers,1.5,164,DraftKings,OVER,,1.0,0
+Christian Braun,Denver Nuggets,Minnesota Timberwolves,3-Pointers,1.5,-218,DraftKings,UNDER,,1.0,1
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-113,DraftKings,OVER,,2.0,1
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,104,BetMGM,OVER,,2.0,1
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-116,DraftKings,UNDER,,2.0,0
+Naz Reid,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-141,BetMGM,UNDER,,2.0,0
+Bones Hyland,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-173,DraftKings,OVER,,3.0,1
+Bones Hyland,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,-167,BetMGM,OVER,,3.0,1
+Bones Hyland,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,131,DraftKings,UNDER,,3.0,0
+Bones Hyland,Minnesota Timberwolves,Denver Nuggets,3-Pointers,1.5,123,BetMGM,UNDER,,3.0,0

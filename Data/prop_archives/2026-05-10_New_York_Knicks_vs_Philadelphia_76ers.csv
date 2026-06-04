@@ -1,0 +1,119 @@
+Player,Team,Opponent,PropType,Line,Odds,Sportsbook,Direction,ModelProb,Actual,Hit
+Josh Hart,New York Knicks,Philadelphia 76ers,Points,13.5,-101,DraftKings,OVER,,17.0,1
+Josh Hart,New York Knicks,Philadelphia 76ers,Points,13.5,-127,DraftKings,UNDER,,17.0,0
+Joel Embiid,Philadelphia 76ers,New York Knicks,Points,25.5,-118,FanDuel,OVER,,24.0,0
+Joel Embiid,Philadelphia 76ers,New York Knicks,Points,25.5,-115,DraftKings,OVER,,24.0,0
+Joel Embiid,Philadelphia 76ers,New York Knicks,Points,25.5,-108,FanDuel,UNDER,,24.0,1
+Joel Embiid,Philadelphia 76ers,New York Knicks,Points,25.5,-111,DraftKings,UNDER,,24.0,1
+Kelly Oubre Jr.,Philadelphia 76ers,New York Knicks,Points,12.5,-123,DraftKings,OVER,,10.0,0
+Kelly Oubre Jr.,Philadelphia 76ers,New York Knicks,Points,12.5,-103,DraftKings,UNDER,,10.0,1
+Paul George,Philadelphia 76ers,New York Knicks,Points,17.5,-106,FanDuel,OVER,,7.0,0
+Paul George,Philadelphia 76ers,New York Knicks,Points,16.5,-114,DraftKings,OVER,,7.0,0
+Paul George,Philadelphia 76ers,New York Knicks,Points,17.5,-120,FanDuel,UNDER,,7.0,1
+Paul George,Philadelphia 76ers,New York Knicks,Points,16.5,-112,DraftKings,UNDER,,7.0,1
+Mitchell Robinson,New York Knicks,Philadelphia 76ers,Points,4.5,-113,DraftKings,OVER,,6.0,1
+Mitchell Robinson,New York Knicks,Philadelphia 76ers,Points,4.5,-113,DraftKings,UNDER,,6.0,0
+Karl-Anthony Towns,New York Knicks,Philadelphia 76ers,Points,18.5,-102,FanDuel,OVER,,17.0,0
+Karl-Anthony Towns,New York Knicks,Philadelphia 76ers,Points,18.5,-101,DraftKings,OVER,,17.0,0
+Karl-Anthony Towns,New York Knicks,Philadelphia 76ers,Points,18.5,-125,FanDuel,UNDER,,17.0,1
+Karl-Anthony Towns,New York Knicks,Philadelphia 76ers,Points,18.5,-126,DraftKings,UNDER,,17.0,1
+Landry Shamet,New York Knicks,Philadelphia 76ers,Points,6.5,-126,DraftKings,OVER,,12.0,1
+Landry Shamet,New York Knicks,Philadelphia 76ers,Points,6.5,-101,DraftKings,UNDER,,12.0,0
+Tyrese Maxey,Philadelphia 76ers,New York Knicks,Points,24.5,-125,FanDuel,OVER,,17.0,0
+Tyrese Maxey,Philadelphia 76ers,New York Knicks,Points,24.5,-118,DraftKings,OVER,,17.0,0
+Tyrese Maxey,Philadelphia 76ers,New York Knicks,Points,24.5,-102,FanDuel,UNDER,,17.0,1
+Tyrese Maxey,Philadelphia 76ers,New York Knicks,Points,24.5,-108,DraftKings,UNDER,,17.0,1
+Quentin Grimes,Philadelphia 76ers,New York Knicks,Points,6.5,102,DraftKings,OVER,,6.0,0
+Quentin Grimes,Philadelphia 76ers,New York Knicks,Points,6.5,-130,DraftKings,UNDER,,6.0,1
+Miles McBride,New York Knicks,Philadelphia 76ers,Points,9.5,-109,DraftKings,OVER,,25.0,1
+Miles McBride,New York Knicks,Philadelphia 76ers,Points,9.5,-117,DraftKings,UNDER,,25.0,0
+Paul George,Philadelphia 76ers,New York Knicks,Rebounds,5.5,-108,FanDuel,OVER,,1.0,0
+Paul George,Philadelphia 76ers,New York Knicks,Rebounds,5.5,-107,DraftKings,OVER,,1.0,0
+Paul George,Philadelphia 76ers,New York Knicks,Rebounds,5.5,-118,FanDuel,UNDER,,1.0,1
+Paul George,Philadelphia 76ers,New York Knicks,Rebounds,5.5,-123,DraftKings,UNDER,,1.0,1
+Karl-Anthony Towns,New York Knicks,Philadelphia 76ers,Rebounds,11.5,-115,DraftKings,OVER,,4.0,0
+Karl-Anthony Towns,New York Knicks,Philadelphia 76ers,Rebounds,11.5,-115,DraftKings,UNDER,,4.0,1
+Jalen Brunson,New York Knicks,Philadelphia 76ers,Rebounds,3.5,-104,DraftKings,OVER,,4.0,1
+Jalen Brunson,New York Knicks,Philadelphia 76ers,Rebounds,3.5,-126,DraftKings,UNDER,,4.0,0
+Quentin Grimes,Philadelphia 76ers,New York Knicks,Rebounds,2.5,-113,FanDuel,OVER,,0.0,0
+Quentin Grimes,Philadelphia 76ers,New York Knicks,Rebounds,2.5,-111,DraftKings,OVER,,0.0,0
+Quentin Grimes,Philadelphia 76ers,New York Knicks,Rebounds,2.5,-113,FanDuel,UNDER,,0.0,1
+Quentin Grimes,Philadelphia 76ers,New York Knicks,Rebounds,2.5,-119,DraftKings,UNDER,,0.0,1
+Mitchell Robinson,New York Knicks,Philadelphia 76ers,Rebounds,7.5,-104,DraftKings,OVER,,6.0,0
+Mitchell Robinson,New York Knicks,Philadelphia 76ers,Rebounds,7.5,-126,DraftKings,UNDER,,6.0,1
+Joel Embiid,Philadelphia 76ers,New York Knicks,Rebounds,7.5,-128,FanDuel,OVER,,5.0,0
+Joel Embiid,Philadelphia 76ers,New York Knicks,Rebounds,7.5,-139,DraftKings,OVER,,5.0,0
+Joel Embiid,Philadelphia 76ers,New York Knicks,Rebounds,7.5,100,FanDuel,UNDER,,5.0,1
+Joel Embiid,Philadelphia 76ers,New York Knicks,Rebounds,7.5,106,DraftKings,UNDER,,5.0,1
+Mikal Bridges,New York Knicks,Philadelphia 76ers,Rebounds,3.5,-155,DraftKings,OVER,,4.0,1
+Mikal Bridges,New York Knicks,Philadelphia 76ers,Rebounds,3.5,118,DraftKings,UNDER,,4.0,0
+Kelly Oubre Jr.,Philadelphia 76ers,New York Knicks,Rebounds,5.5,-130,FanDuel,OVER,,4.0,0
+Kelly Oubre Jr.,Philadelphia 76ers,New York Knicks,Rebounds,5.5,-122,DraftKings,OVER,,4.0,0
+Kelly Oubre Jr.,Philadelphia 76ers,New York Knicks,Rebounds,5.5,102,FanDuel,UNDER,,4.0,1
+Kelly Oubre Jr.,Philadelphia 76ers,New York Knicks,Rebounds,5.5,-108,DraftKings,UNDER,,4.0,1
+VJ Edgecombe,Philadelphia 76ers,New York Knicks,Rebounds,5.5,-104,FanDuel,OVER,,6.0,1
+VJ Edgecombe,Philadelphia 76ers,New York Knicks,Rebounds,5.5,-110,DraftKings,OVER,,6.0,1
+VJ Edgecombe,Philadelphia 76ers,New York Knicks,Rebounds,5.5,-122,FanDuel,UNDER,,6.0,0
+VJ Edgecombe,Philadelphia 76ers,New York Knicks,Rebounds,5.5,-119,DraftKings,UNDER,,6.0,0
+Tyrese Maxey,Philadelphia 76ers,New York Knicks,Rebounds,3.5,-154,FanDuel,OVER,,2.0,0
+Tyrese Maxey,Philadelphia 76ers,New York Knicks,Rebounds,3.5,-157,DraftKings,OVER,,2.0,0
+Tyrese Maxey,Philadelphia 76ers,New York Knicks,Rebounds,3.5,120,FanDuel,UNDER,,2.0,1
+Tyrese Maxey,Philadelphia 76ers,New York Knicks,Rebounds,3.5,119,DraftKings,UNDER,,2.0,1
+Mikal Bridges,New York Knicks,Philadelphia 76ers,Assists,2.5,-151,DraftKings,OVER,,6.0,1
+Mikal Bridges,New York Knicks,Philadelphia 76ers,Assists,2.5,115,DraftKings,UNDER,,6.0,0
+Karl-Anthony Towns,New York Knicks,Philadelphia 76ers,Assists,4.5,-151,DraftKings,OVER,,10.0,1
+Karl-Anthony Towns,New York Knicks,Philadelphia 76ers,Assists,4.5,114,DraftKings,UNDER,,10.0,0
+Josh Hart,New York Knicks,Philadelphia 76ers,Assists,4.5,-140,DraftKings,OVER,,1.0,0
+Josh Hart,New York Knicks,Philadelphia 76ers,Assists,4.5,106,DraftKings,UNDER,,1.0,1
+Tyrese Maxey,Philadelphia 76ers,New York Knicks,Assists,6.5,118,FanDuel,OVER,,4.0,0
+Tyrese Maxey,Philadelphia 76ers,New York Knicks,Assists,6.5,110,DraftKings,OVER,,4.0,0
+Tyrese Maxey,Philadelphia 76ers,New York Knicks,Assists,6.5,-150,FanDuel,UNDER,,4.0,1
+Tyrese Maxey,Philadelphia 76ers,New York Knicks,Assists,6.5,-145,DraftKings,UNDER,,4.0,1
+Jalen Brunson,New York Knicks,Philadelphia 76ers,Assists,6.5,117,DraftKings,OVER,,6.0,0
+Jalen Brunson,New York Knicks,Philadelphia 76ers,Assists,6.5,-154,DraftKings,UNDER,,6.0,1
+Joel Embiid,Philadelphia 76ers,New York Knicks,Assists,4.5,-118,FanDuel,OVER,,4.0,0
+Joel Embiid,Philadelphia 76ers,New York Knicks,Assists,4.5,-103,DraftKings,OVER,,4.0,0
+Joel Embiid,Philadelphia 76ers,New York Knicks,Assists,4.5,-108,FanDuel,UNDER,,4.0,1
+Joel Embiid,Philadelphia 76ers,New York Knicks,Assists,4.5,-127,DraftKings,UNDER,,4.0,1
+VJ Edgecombe,Philadelphia 76ers,New York Knicks,Assists,3.5,106,FanDuel,OVER,,7.0,1
+VJ Edgecombe,Philadelphia 76ers,New York Knicks,Assists,3.5,109,DraftKings,OVER,,7.0,1
+VJ Edgecombe,Philadelphia 76ers,New York Knicks,Assists,3.5,-136,FanDuel,UNDER,,7.0,0
+VJ Edgecombe,Philadelphia 76ers,New York Knicks,Assists,3.5,-143,DraftKings,UNDER,,7.0,0
+Paul George,Philadelphia 76ers,New York Knicks,Assists,3.5,124,FanDuel,OVER,,2.0,0
+Paul George,Philadelphia 76ers,New York Knicks,Assists,3.5,118,DraftKings,OVER,,2.0,0
+Paul George,Philadelphia 76ers,New York Knicks,Assists,3.5,-160,FanDuel,UNDER,,2.0,1
+Paul George,Philadelphia 76ers,New York Knicks,Assists,3.5,-156,DraftKings,UNDER,,2.0,1
+Quentin Grimes,Philadelphia 76ers,New York Knicks,Assists,1.5,-172,FanDuel,OVER,,0.0,0
+Quentin Grimes,Philadelphia 76ers,New York Knicks,Assists,1.5,-160,DraftKings,OVER,,0.0,0
+Quentin Grimes,Philadelphia 76ers,New York Knicks,Assists,1.5,134,FanDuel,UNDER,,0.0,1
+Quentin Grimes,Philadelphia 76ers,New York Knicks,Assists,1.5,121,DraftKings,UNDER,,0.0,1
+Miles McBride,New York Knicks,Philadelphia 76ers,Assists,1.5,-101,DraftKings,OVER,,0.0,0
+Miles McBride,New York Knicks,Philadelphia 76ers,Assists,1.5,-131,DraftKings,UNDER,,0.0,1
+Josh Hart,New York Knicks,Philadelphia 76ers,3-Pointers,1.5,107,DraftKings,OVER,,4.0,1
+Josh Hart,New York Knicks,Philadelphia 76ers,3-Pointers,1.5,-141,DraftKings,UNDER,,4.0,0
+Landry Shamet,New York Knicks,Philadelphia 76ers,3-Pointers,1.5,-101,DraftKings,OVER,,4.0,1
+Landry Shamet,New York Knicks,Philadelphia 76ers,3-Pointers,1.5,-130,DraftKings,UNDER,,4.0,0
+VJ Edgecombe,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,-164,FanDuel,OVER,,0.0,0
+VJ Edgecombe,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,-148,DraftKings,OVER,,0.0,0
+VJ Edgecombe,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,128,FanDuel,UNDER,,0.0,1
+VJ Edgecombe,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,112,DraftKings,UNDER,,0.0,1
+Kelly Oubre Jr.,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,118,FanDuel,OVER,,0.0,0
+Kelly Oubre Jr.,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,111,DraftKings,OVER,,0.0,0
+Kelly Oubre Jr.,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,-148,FanDuel,UNDER,,0.0,1
+Kelly Oubre Jr.,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,-147,DraftKings,UNDER,,0.0,1
+Jalen Brunson,New York Knicks,Philadelphia 76ers,3-Pointers,2.5,-116,DraftKings,OVER,,6.0,1
+Jalen Brunson,New York Knicks,Philadelphia 76ers,3-Pointers,2.5,-114,DraftKings,UNDER,,6.0,0
+Karl-Anthony Towns,New York Knicks,Philadelphia 76ers,3-Pointers,1.5,122,DraftKings,OVER,,2.0,1
+Karl-Anthony Towns,New York Knicks,Philadelphia 76ers,3-Pointers,1.5,-161,DraftKings,UNDER,,2.0,0
+Joel Embiid,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,136,FanDuel,OVER,,2.0,1
+Joel Embiid,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,128,DraftKings,OVER,,2.0,1
+Joel Embiid,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,-174,FanDuel,UNDER,,2.0,0
+Joel Embiid,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,-170,DraftKings,UNDER,,2.0,0
+Miles McBride,New York Knicks,Philadelphia 76ers,3-Pointers,2.5,122,DraftKings,OVER,,7.0,1
+Miles McBride,New York Knicks,Philadelphia 76ers,3-Pointers,2.5,-162,DraftKings,UNDER,,7.0,0
+Quentin Grimes,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,190,FanDuel,OVER,,2.0,1
+Quentin Grimes,Philadelphia 76ers,New York Knicks,3-Pointers,0.5,-219,DraftKings,OVER,,2.0,1
+Quentin Grimes,Philadelphia 76ers,New York Knicks,3-Pointers,1.5,-250,FanDuel,UNDER,,2.0,0
+Quentin Grimes,Philadelphia 76ers,New York Knicks,3-Pointers,0.5,164,DraftKings,UNDER,,2.0,0
+Mikal Bridges,New York Knicks,Philadelphia 76ers,3-Pointers,1.5,-136,DraftKings,OVER,,0.0,0
+Mikal Bridges,New York Knicks,Philadelphia 76ers,3-Pointers,1.5,104,DraftKings,UNDER,,0.0,1
