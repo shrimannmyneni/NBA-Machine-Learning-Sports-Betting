@@ -5,6 +5,7 @@
 #   ./scripts/game_day.sh                                            # all games tonight, auto source
 #   ./scripts/game_day.sh --home "San Antonio Spurs" --away "New York Knicks"
 #   ./scripts/game_day.sh --dry-run                                  # stop after props pull
+#   ./scripts/game_day.sh --date 2026-06-03                          # override date (test with past game)
 #   ./scripts/game_day.sh --source bettingpros                       # force BettingPros
 #   ./scripts/game_day.sh --source oddsapi                           # force The Odds API
 #   ./scripts/game_day.sh --source manual                            # skip pull, use existing props.csv
@@ -25,6 +26,7 @@ AWAY_TEAM=""
 DRY_RUN=0
 SOURCE="auto"          # auto | bettingpros | oddsapi | manual
 ODDS_BOOK="${ODDS_BOOK:-betmgm}"
+OVERRIDE_DATE=""       # YYYY-MM-DD — overrides today's date for BettingPros (testing with past games)
 
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -33,6 +35,7 @@ while [[ $# -gt 0 ]]; do
     --dry-run) DRY_RUN=1; shift ;;
     --book)    ODDS_BOOK="$2"; shift 2 ;;
     --source)  SOURCE="$2"; shift 2 ;;
+    --date)    OVERRIDE_DATE="$2"; shift 2 ;;
     *) echo "Unknown argument: $1"; exit 1 ;;
   esac
 done
@@ -63,8 +66,11 @@ if [[ "$SOURCE" == "auto" || "$SOURCE" == "bettingpros" ]]; then
     DRY_FLAG=""
     [[ $DRY_RUN -eq 1 ]] && DRY_FLAG="--dry-run"
 
+    DATE_FLAG=""
+    [[ -n "$OVERRIDE_DATE" ]] && DATE_FLAG="--date $OVERRIDE_DATE"
+
     if python3 -m src.DataProviders.BettingProsProvider \
-        "${TEAM_ARGS[@]}" $DRY_FLAG 2>&1 \
+        "${TEAM_ARGS[@]}" $DATE_FLAG $DRY_FLAG 2>&1 \
         | grep -E 'prop lines|Wrote|No.*events|dry-run|warn|Error'; then
         props_csv_ok && PROPS_SOURCE="bettingpros"
     fi
@@ -129,7 +135,8 @@ ts "Step 1 done  [source: $PROPS_SOURCE]"
 
 # ── Step 2: archive props ─────────────────────────────────────────────────────
 ts "Step 2/4 — Archive props"
-./scripts/archive_props.sh --date "$(date '+%Y-%m-%d')"
+ARCHIVE_DATE="${OVERRIDE_DATE:-$(date '+%Y-%m-%d')}"
+./scripts/archive_props.sh --date "$ARCHIVE_DATE"
 ts "Step 2 done"
 
 # ── Step 3: train props model ─────────────────────────────────────────────────

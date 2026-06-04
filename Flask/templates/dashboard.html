@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NBA Edge Lab — Game Day</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<div class="dashboard">
+
+    <!-- ── Header ─────────────────────────────────────────────────────────── -->
+    <header class="dash-header">
+        <div class="brand">
+            <div class="brand-mark">NBA</div>
+            <div class="brand-text">
+                Edge Lab
+                <small>Game Day Control Panel</small>
+            </div>
+        </div>
+        <div class="status-indicator" id="status">
+            <span class="status-dot" id="status-dot"></span>
+            <span class="status-text" id="status-text">Ready</span>
+            <span class="status-date">{{ today }}</span>
+        </div>
+    </header>
+
+    <!-- ── Control bar ────────────────────────────────────────────────────── -->
+    <div class="control-bar">
+
+        <!-- Pull Props — has inline form -->
+        <div class="btn-group-wrap" id="pull-props-wrap">
+            <button class="action-btn" id="btn-pull-props" title="Pull tonight's prop lines from BettingPros">
+                ↓ Pull Props
+            </button>
+            <div class="props-form" id="props-form">
+                <label class="props-label">Date</label>
+                <input type="date" id="props-date" class="form-control form-control-sm dash-input"
+                       value="{{ today }}">
+                <label class="props-label">Home</label>
+                <select id="props-home" class="form-select form-select-sm dash-input dash-select">
+                    <option value="">— home team —</option>
+                    {% for team in teams %}
+                    <option value="{{ team }}">{{ team }}</option>
+                    {% endfor %}
+                </select>
+                <label class="props-label">Away</label>
+                <select id="props-away" class="form-select form-select-sm dash-input dash-select">
+                    <option value="">— away team —</option>
+                    {% for team in teams %}
+                    <option value="{{ team }}">{{ team }}</option>
+                    {% endfor %}
+                </select>
+                <button class="action-btn action-btn-run" id="btn-pull-props-run">Run ▶</button>
+                <button class="action-btn action-btn-cancel" id="btn-pull-props-cancel">✕</button>
+            </div>
+        </div>
+
+        <!-- Run Model — with optional date inline -->
+        <div class="btn-group-wrap" id="run-model-wrap">
+            <button class="action-btn" id="btn-run-model"
+                    title="Run XGBoost + NN models against betmgm odds and props CSV">
+                ▶ Run Model
+            </button>
+            <div class="props-form open" id="run-model-form">
+                <label class="props-label">Date</label>
+                <input type="date" id="run-model-date"
+                       class="form-control form-control-sm dash-input"
+                       value="{{ today }}">
+            </div>
+        </div>
+        <button class="action-btn" data-action="archive-props"
+                title="Archive tmp_data/props.csv to Data/prop_archives/">
+            ⬇ Archive Props
+        </button>
+        <button class="action-btn" data-action="label-last-game"
+                title="Label the most recent archive with BRef box score outcomes">
+            ✓ Label Last Game
+        </button>
+        <button class="action-btn" data-action="retrain-model"
+                title="Run train_props.sh: rebuild training data and retrain props model">
+            ⟳ Retrain Model
+        </button>
+
+        <!-- Clear button -->
+        <button class="action-btn action-btn-ghost" id="btn-clear" title="Clear terminal output">
+            ⌫ Clear
+        </button>
+    </div>
+
+    <!-- ── Terminal ───────────────────────────────────────────────────────── -->
+    <div class="terminal" id="terminal">
+        <div class="terminal-placeholder" id="terminal-placeholder">
+            Ready. Select a pipeline step above to stream its output here.
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

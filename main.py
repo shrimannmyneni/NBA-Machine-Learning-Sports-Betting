@@ -153,40 +153,49 @@ def run_models(data, normalized_data, todays_games_uo, frame_ml, games, home_tea
 
 
 def main(args):
+    # --date overrides "today" for schedule lookups and days-rest calculation.
+    # Useful for re-running a past game (e.g. testing with cached props).
+    if getattr(args, 'date', None):
+        today = datetime.strptime(args.date, "%Y-%m-%d")
+        print(ts(f"Date override: {args.date}"))
+    else:
+        today = datetime.today()
+
     odds = None
     if args.odds:
         odds = SbrOddsProvider(sportsbook=args.odds).get_odds()
     games, odds = resolve_games(odds, args.odds)
+
+    all_bets = []
+
     if not games:
-        print(ts("No games found for today. Exiting."))
-        return
+        if not args.props:
+            print(ts("No games found for today. Exiting."))
+            return
+        print(ts("No live games found — running props pipeline only."))
+    else:
+        stats_json = get_json_data(DATA_URL)
+        df = to_data_frame(stats_json)
+        schedule_df = load_schedule()
+        result = create_todays_games_data(
+            games, df, odds, schedule_df, today, sportsbook=args.odds
+        )
+        if result is None:
+            if not args.props:
+                return
+            print(ts("Team model could not run — running props pipeline only."))
+        else:
+            data, todays_games_uo, frame_ml, home_team_odds, away_team_odds = result
 
-    stats_json = get_json_data(DATA_URL)
-    df = to_data_frame(stats_json)
-    schedule_df = load_schedule()
-    today = datetime.today()
-    result = create_todays_games_data(
-        games, df, odds, schedule_df, today, sportsbook=args.odds
-    )
-    if result is None:
-        return
-    data, todays_games_uo, frame_ml, home_team_odds, away_team_odds = result
+            if args.A:
+                args.xgb = True
+                args.nn = True
 
-    if args.A:
-        args.xgb = True
-        args.nn = True
-
-    normalized_data = tf.keras.utils.normalize(data, axis=1) if args.nn else None
-    all_bets = run_models(
-        data,
-        normalized_data,
-        todays_games_uo,
-        frame_ml,
-        games,
-        home_team_odds,
-        away_team_odds,
-        args,
-    )
+            normalized_data = tf.keras.utils.normalize(data, axis=1) if args.nn else None
+            all_bets = run_models(
+                data, normalized_data, todays_games_uo, frame_ml,
+                games, home_team_odds, away_team_odds, args,
+            )
 
     # Player props (parallel pipeline — does not touch team-level data)
     if args.props:
@@ -213,5 +222,6 @@ if __name__ == "__main__":
     parser.add_argument('-kc', action='store_true', help='Calculates percentage of bankroll to bet based on model edge')
     parser.add_argument('-props', action='store_true', help='Include player props bets in ranked output')
     parser.add_argument('-props-csv', dest='props_csv', default=None, help=f'Path to props CSV (default: {DEFAULT_PROPS_CSV})')
+    parser.add_argument('--date', default=None, help='Override today\'s date (YYYY-MM-DD) — use with past game data')
     args = parser.parse_args()
     main(args)

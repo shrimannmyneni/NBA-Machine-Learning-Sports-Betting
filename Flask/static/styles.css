@@ -704,3 +704,252 @@ h3 {
     color: var(--text);
     background: rgba(255, 255, 255, 0.06);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Game Day Dashboard — appended, existing styles untouched
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.dash-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: var(--surface-strong);
+    border-bottom: 1px solid var(--stroke);
+    flex-shrink: 0;
+    gap: 16px;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2dd36f;
+    transition: background 0.3s;
+    flex-shrink: 0;
+}
+
+.status-date {
+    padding: 2px 8px;
+    border: 1px solid var(--stroke);
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+/* ── Control bar ─────────────────────────────────────────────────────────── */
+.control-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--stroke);
+    flex-shrink: 0;
+}
+
+.btn-group-wrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* Action buttons */
+.action-btn {
+    background: var(--surface-strong);
+    color: var(--text);
+    border: 1px solid var(--stroke);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-family: "Manrope", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background 0.14s, border-color 0.14s, color 0.14s;
+    white-space: nowrap;
+}
+
+.action-btn:hover:not(:disabled) {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.action-btn:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+}
+
+.action-btn-run {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.action-btn-run:hover:not(:disabled) {
+    background: #4a8ff7;
+    border-color: #4a8ff7;
+}
+
+.action-btn-cancel {
+    background: transparent;
+    border-color: var(--stroke);
+    color: var(--muted);
+    padding: 6px 10px;
+}
+
+.action-btn-cancel:hover:not(:disabled) {
+    background: var(--negative);
+    border-color: var(--negative);
+    color: #fff;
+}
+
+.action-btn-ghost {
+    background: transparent;
+    border-color: var(--stroke);
+    color: var(--muted);
+    margin-left: auto;   /* push Clear to far right */
+}
+
+.action-btn-ghost:hover:not(:disabled) {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.15);
+    color: var(--text);
+}
+
+/* Props inline form — hidden by default, shown with .open */
+.props-form {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.props-form.open { display: flex; }
+
+.props-label {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.dash-input {
+    background: #0d1220 !important;
+    border: 1px solid var(--stroke) !important;
+    color: var(--text) !important;
+    font-size: 12px !important;
+    min-width: 120px;
+    max-width: 220px;
+}
+
+.dash-input::placeholder { color: var(--muted) !important; }
+
+.dash-select option {
+    background: #0d1220;
+    color: var(--text);
+}
+
+.dash-input:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(47,124,246,0.35) !important;
+    border-color: var(--accent) !important;
+}
+
+/* Date picker dark fix (WebKit) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.6);
+}
+
+/* ── Terminal ─────────────────────────────────────────────────────────────── */
+.terminal {
+    flex: 1;
+    background: #080c14;
+    color: #c8d3ea;
+    font-family: "JetBrains Mono", "Menlo", "Courier New", monospace;
+    font-size: 12.5px;
+    line-height: 1.65;
+    padding: 16px 20px;
+    overflow-y: auto;
+    overflow-x: auto;
+    min-height: 0;        /* flex-shrink fix */
+}
+
+.terminal-placeholder {
+    color: #4a5880;
+    font-style: italic;
+}
+
+.terminal-line {
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+}
+
+/* Line colour variants */
+.term-ts     { color: #8a97be; }          /* timestamped info lines — slightly muted */
+.term-warn   { color: #f2c94c; }
+.term-error  { color: #ff6b6b; }
+.term-muted  { color: #55637e; }
+.term-done   { color: #23d6c6; font-weight: 600; }
+.term-accent { color: #6dbfff; }           /* → summary lines */
+.term-positive { color: #2dd36f; }
+
+/* ── Ranked bets table (rendered inside terminal) ─────────────────────────── */
+.ranked-table-wrap {
+    margin: 10px 0;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.term-table-caption {
+    color: #23d6c6;
+    font-size: 12px;
+    margin-bottom: 4px;
+    white-space: pre;
+}
+
+.ranked-table {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+    border-color: var(--stroke) !important;
+    margin-bottom: 0;
+    width: auto;
+}
+
+.ranked-table th {
+    color: var(--accent-2);
+    border-color: rgba(255,255,255,0.1) !important;
+    background: rgba(16,24,40,0.6) !important;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.ranked-table td {
+    border-color: rgba(255,255,255,0.06) !important;
+    background: transparent !important;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.ranked-table tbody tr:hover td {
+    background: rgba(47,124,246,0.08) !important;
+}
