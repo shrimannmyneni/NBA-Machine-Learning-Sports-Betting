@@ -112,3 +112,6 @@ temp/
 
 # Player props scrape cache and formatted CSVs — not committed
 tmp_data/
+
+# Local secrets — never commit
+.env
