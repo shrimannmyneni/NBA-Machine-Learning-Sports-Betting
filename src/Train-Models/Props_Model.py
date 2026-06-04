@@ -19,6 +19,8 @@ import json
 from datetime import date
 from pathlib import Path
 
+from src.Utils.ts import ts
+
 import numpy as np
 import pandas as pd
 import xgboost as xgb
@@ -160,12 +162,12 @@ def main():
     MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
     if not Path(args.csv).exists():
-        print(f"Training CSV not found: {args.csv}")
-        print("Run: python -m src.Process-Data.Build_Props_Training_Data first.")
+        print(ts(f"Training CSV not found: {args.csv}"))
+        print(ts("Run: python -m src.Process-Data.Build_Props_Training_Data first."))
         return
 
     X, y, def_median = load_and_prepare(args.csv)
-    print(f"Loaded {len(X)} training rows, {int(y.sum())} hits ({y.mean()*100:.1f}% hit rate).")
+    print(ts(f"Loaded {len(X)} training rows, {int(y.sum())} hits ({y.mean()*100:.1f}% hit rate)."))
 
     X_tv, y_tv, X_test, y_test = split_temporal(X, y)
 
@@ -179,10 +181,10 @@ def main():
             continue
         if val_loss < best["val_loss"]:
             best.update({"val_loss": val_loss, "params": params, "num_boost_round": nbr})
-        print(f"  Trial {trial:3d}/{args.trials}: val log loss {val_loss:.4f}")
+        print(ts(f"  Trial {trial:3d}/{args.trials}: val log loss {val_loss:.4f}"))
 
     if best["params"] is None:
-        print("No valid parameter set found.")
+        print(ts("No valid parameter set found."))
         return
 
     # Final model on train portion; hold out 10% of train for calibration.
@@ -209,16 +211,16 @@ def main():
     auc      = roc_auc_score(y_test, test_probs)
     tl       = log_loss(y_test, test_probs)
 
-    print(f"\nBest val log loss : {best['val_loss']:.4f}")
-    print(f"Test accuracy     : {accuracy:.4f}  ({accuracy*100:.1f}%)")
-    print(f"Test ROC-AUC      : {auc:.4f}")
-    print(f"Test log loss     : {tl:.4f}")
+    print(ts(f"Best val log loss : {best['val_loss']:.4f}"))
+    print(ts(f"Test accuracy     : {accuracy:.4f}  ({accuracy*100:.1f}%)"))
+    print(ts(f"Test ROC-AUC      : {auc:.4f}"))
+    print(ts(f"Test log loss     : {tl:.4f}"))
 
     stem = f"Props_{accuracy*100:.1f}pct_{date.today()}"
 
     model_path = MODEL_DIR / f"{stem}.json"
     best_model.save_model(str(model_path))
-    print(f"\nSaved model       : {model_path}")
+    print(ts(f"Saved model       : {model_path}"))
 
     # Extract Platt scaling coefficients (two floats) instead of pickling the
     # sklearn wrapper — avoids _BoosterWrapper unpickling errors across modules.
@@ -227,7 +229,7 @@ def main():
         sig = calibrator.calibrated_classifiers_[0].calibrators[0]
         calib_a = float(sig.a_)
         calib_b = float(sig.b_)
-        print(f"Calibration       : sigmoid  a={calib_a:.4f}  b={calib_b:.4f}")
+        print(ts(f"Calibration       : sigmoid  a={calib_a:.4f}  b={calib_b:.4f}"))
 
     meta = {
         "feature_cols":        FEATURE_COLS,
@@ -242,7 +244,7 @@ def main():
     meta_path = MODEL_DIR / f"{stem}_meta.json"
     with open(meta_path, "w") as f:
         json.dump(meta, f, indent=2)
-    print(f"Saved meta        : {meta_path}")
+    print(ts(f"Saved meta        : {meta_path}"))
 
 
 if __name__ == "__main__":

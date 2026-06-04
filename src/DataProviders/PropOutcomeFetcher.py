@@ -20,6 +20,8 @@ import re
 import time
 from pathlib import Path
 
+from src.Utils.ts import ts
+
 from src.DataProviders.BRefDefenseProvider import TEAM_TO_BREF
 
 TMP_DIR = Path(__file__).resolve().parents[2] / "tmp_data" / "boxscores"
@@ -130,7 +132,7 @@ def fetch_box_score(date_str, team1, team2, force_refresh=False):
         if resp.status_code == 200:
             raw_html = resp.text
             home_abbr = abbr
-            print(f"  Box score URL: {url}")
+            print(ts(f"  Box score URL: {url}"))
             break
 
     if raw_html is None:
@@ -154,7 +156,7 @@ def fetch_box_score(date_str, team1, team2, force_refresh=False):
         if table:
             all_players.update(_parse_box_table(table))
         else:
-            print(f"  [warn] Could not find box score table for {abbr}")
+            print(ts(f"  [warn] Could not find box score table for {abbr}"))
 
     cache_path = TMP_DIR / f"{date_compact}_{home_abbr}.json"
     with open(cache_path, "w") as f:
@@ -186,9 +188,9 @@ def label_archive_csv(csv_path, force_refresh=False):
     team1 = parts[0].replace("_", " ")
     team2 = parts[1].replace("_", " ")
 
-    print(f"Labeling: {csv_path.name}")
+    print(ts(f"Labeling: {csv_path.name}"))
     box = fetch_box_score(date_str, team1, team2, force_refresh=force_refresh)
-    print(f"  Players in box score: {len(box)}")
+    print(ts(f"  Players in box score: {len(box)}"))
 
     rows      = []
     summary   = {"total": 0, "labeled": 0, "hits": 0, "misses": 0, "dnp": 0, "not_found": 0}
@@ -241,8 +243,8 @@ def label_archive_csv(csv_path, force_refresh=False):
     n = summary["labeled"]
     h = summary["hits"]
     rate = f"{h/n*100:.1f}%" if n else "N/A"
-    print(f"  {n}/{summary['total']} labeled  |  {h} hits / {summary['misses']} misses  "
-          f"|  hit rate: {rate}  |  {summary['dnp']} DNP  |  {summary['not_found']} not found")
+    print(ts(f"  {n}/{summary['total']} labeled  |  {h} hits / {summary['misses']} misses  "
+             f"|  hit rate: {rate}  |  {summary['dnp']} DNP  |  {summary['not_found']} not found"))
     return summary
 
 

@@ -21,6 +21,8 @@ import json
 import time
 from pathlib import Path
 
+from src.Utils.ts import ts
+
 TMP_DIR = Path(__file__).resolve().parents[2] / "tmp_data"
 
 # Maps full team names (as used elsewhere in this codebase) to BRef abbreviations.
@@ -175,6 +177,6 @@ def get_defense_for_teams(team_names, year=2026, force_refresh=False):
         try:
             results[name] = get_team_defense(name, year=year, force_refresh=force_refresh)
         except Exception as exc:
-            print(f"[BRefDefenseProvider] Failed to fetch {name}: {exc}")
+            print(ts(f"[BRefDefenseProvider] Failed to fetch {name}: {exc}"))
             results[name] = {}
     return results

@@ -16,6 +16,8 @@ import json
 from datetime import date, datetime
 from pathlib import Path
 
+from src.Utils.ts import ts
+
 import numpy as np
 
 from src.DataProviders.BRefDefenseProvider import get_team_defense
@@ -97,7 +99,7 @@ def _load_model():
     meta_path  = model_path.with_name(model_path.stem + "_meta.json")
 
     if not meta_path.exists():
-        print(f"[Props] Missing meta for {model_path.name} — falling back to implied probability.")
+        print(ts(f"[Props] Missing meta for {model_path.name} — falling back to implied probability."))
         return None
 
     with open(meta_path) as f:
@@ -108,7 +110,7 @@ def _load_model():
         booster = xgb.Booster()
         booster.load_model(str(model_path))
     except Exception as exc:
-        print(f"[Props] Could not load model ({exc}) — falling back to implied probability.")
+        print(ts(f"[Props] Could not load model ({exc}) — falling back to implied probability."))
         return None
 
     _model_state = {
@@ -119,7 +121,7 @@ def _load_model():
         "calib_a":      meta.get("calib_a"),
         "calib_b":      meta.get("calib_b"),
     }
-    print(f"[Props] Model: {model_path.name}  accuracy={meta.get('accuracy', '?')}  auc={meta.get('roc_auc', '?')}")
+    print(ts(f"[Props] Model: {model_path.name}  accuracy={meta.get('accuracy', '?')}  auc={meta.get('roc_auc', '?')}"))
     return _model_state
 
 

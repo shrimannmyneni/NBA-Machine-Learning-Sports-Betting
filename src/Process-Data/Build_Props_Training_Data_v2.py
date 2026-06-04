@@ -22,6 +22,8 @@ import csv
 from datetime import datetime
 from pathlib import Path
 
+from src.Utils.ts import ts
+
 from src.DataProviders.BRefDefenseProvider import get_team_defense
 from src.DataProviders.BRefPlayerStatsProvider import get_player_game_log
 
@@ -103,7 +105,7 @@ def load_labeled_archives(archive_dir):
             with open(csv_path, newline="") as f:
                 reader = csv.DictReader(f)
                 if "Hit" not in (reader.fieldnames or []):
-                    print(f"  [skip] {csv_path.name} — not yet labeled (run label_last_game.sh)")
+                    print(ts(f"  [skip] {csv_path.name} — not yet labeled (run label_last_game.sh)"))
                     continue
                 n = 0
                 for row in reader:
@@ -133,9 +135,9 @@ def load_labeled_archives(archive_dir):
                         "hit":       model_target,
                     })
                     n += 1
-                print(f"  {csv_path.name}: {n} props loaded")
+                print(ts(f"  {csv_path.name}: {n} props loaded"))
         except Exception as exc:
-            print(f"  [error] {csv_path.name}: {exc}")
+            print(ts(f"  [error] {csv_path.name}: {exc}"))
 
     return all_rows
 
@@ -178,7 +180,7 @@ def build_feature_rows(archive_rows, defense_cache, game_log_cache):
             try:
                 defense_cache[cache_key] = get_team_defense(opponent, year=year)
             except Exception as exc:
-                print(f"  [warn] defense fetch failed for {opponent}: {exc}")
+                print(ts(f"  [warn] defense fetch failed for {opponent}: {exc}"))
                 defense_cache[cache_key] = {}
 
         opp_def_stat  = defense_cache[cache_key].get(def_col)
@@ -214,34 +216,34 @@ def main():
 
     TMP_DIR.mkdir(exist_ok=True)
 
-    print(f"Loading labeled archives from {args.archives} ...")
+    print(ts(f"Loading labeled archives from {args.archives} ..."))
     archive_rows = load_labeled_archives(args.archives)
-    print(f"  Total labeled props: {len(archive_rows)}")
+    print(ts(f"  Total labeled props: {len(archive_rows)}"))
 
     if not archive_rows:
-        print("\nNo labeled data yet. After each game run:")
+        print(ts("No labeled data yet. After each game run:"))
         print("  ./scripts/label_last_game.sh")
         return
 
-    print("\nBuilding features ...")
+    print(ts("Building features ..."))
     defense_cache  = {}
     game_log_cache = {}
     feature_rows   = build_feature_rows(archive_rows, defense_cache, game_log_cache)
-    print(f"  Feature rows: {len(feature_rows)}")
+    print(ts(f"  Feature rows: {len(feature_rows)}"))
 
     if not feature_rows:
-        print("No feature rows generated. Check player IDs.")
+        print(ts("No feature rows generated. Check player IDs."))
         return
 
     hits = sum(1 for r in feature_rows if r["hit"] == 1)
-    print(f"  Hit rate (P(OVER)): {hits/len(feature_rows)*100:.1f}%  ({hits}/{len(feature_rows)})")
+    print(ts(f"  Hit rate (P(OVER)): {hits/len(feature_rows)*100:.1f}%  ({hits}/{len(feature_rows)})"))
 
     with open(OUTPUT_CSV, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=OUTPUT_COLUMNS)
         writer.writeheader()
         writer.writerows(feature_rows)
 
-    print(f"\nWrote {len(feature_rows)} rows → {OUTPUT_CSV}")
+    print(ts(f"Wrote {len(feature_rows)} rows → {OUTPUT_CSV}"))
     print("Next: python -m src.Train-Models.Props_Model")
 
 

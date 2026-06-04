@@ -24,6 +24,8 @@ import re
 import time
 from pathlib import Path
 
+from src.Utils.ts import ts
+
 from src.DataProviders.BRefDefenseProvider import TEAM_TO_BREF
 
 TMP_DIR   = Path(__file__).resolve().parents[2] / "tmp_data"
@@ -143,7 +145,7 @@ def _refresh_api_key():
     if key_m:
         key = key_m.group(1)
         _save_key(key)
-        print(f"  [BettingPros] API key refreshed from {api_bundle}")
+        print(ts(f"  [BettingPros] API key refreshed from {api_bundle}"))
         return key
 
     return None
@@ -247,7 +249,7 @@ def _fetch_offers(event_id, market_id, date_str, force_refresh=False):
         resp = requests.get(url, params=params, headers=headers, timeout=15)
 
         if resp.status_code == 403 and attempt == 0:
-            print("  [BettingPros] 403 — refreshing API key and retrying ...")
+            print(ts("  [BettingPros] 403 — refreshing API key and retrying ..."))
             continue
 
         resp.raise_for_status()
@@ -352,7 +354,7 @@ def pull_props(date_str, home_team=None, away_team=None, force_refresh=False):
     events = _extract_events_from_page(date_str, force_refresh=force_refresh)
 
     if not events:
-        print(f"  [BettingPros] No events found for {date_str}.")
+        print(ts(f"  [BettingPros] No events found for {date_str}."))
         return []
 
     # Filter by team names if provided
@@ -368,12 +370,12 @@ def pull_props(date_str, home_team=None, away_team=None, force_refresh=False):
 
     if not events:
         teams_msg = f" for {home_team or '?'} vs {away_team or '?'}"
-        print(f"  [BettingPros] No matching events on {date_str}{teams_msg}.")
+        print(ts(f"  [BettingPros] No matching events on {date_str}{teams_msg}."))
         return []
 
     all_rows = []
     for event in events:
-        print(f"  [{event['away_team']} @ {event['home_team']}]  event_id={event['id']}")
+        print(ts(f"  [{event['away_team']} @ {event['home_team']}]  event_id={event['id']}"))
         for prop_type, market_id in _MARKETS.items():
             offers = _fetch_offers(
                 event["id"], market_id, date_str, force_refresh=force_refresh
@@ -383,7 +385,7 @@ def pull_props(date_str, home_team=None, away_team=None, force_refresh=False):
 
         n_players = len({r["Player"] for r in all_rows})
         n_books   = len({r["Sportsbook"] for r in all_rows})
-        print(f"  → {len(all_rows)} prop lines  |  {n_books} books  |  {n_players} players")
+        print(ts(f"  → {len(all_rows)} prop lines  |  {n_books} books  |  {n_players} players"))
 
     return all_rows
 
@@ -395,25 +397,25 @@ def write_props_csv(rows, path=None):
         writer = csv.DictWriter(f, fieldnames=OUTPUT_COLUMNS)
         writer.writeheader()
         writer.writerows(rows)
-    print(f"  Wrote {len(rows)} rows → {path}")
+    print(ts(f"  Wrote {len(rows)} rows → {path}"))
     return path
 
 
 def run(date_str, home_team=None, away_team=None,
         output_path=None, dry_run=False, force_refresh=False):
-    print(f"BettingPros props pull — {date_str}")
+    print(ts(f"BettingPros props pull — {date_str}"))
     events = _extract_events_from_page(date_str, force_refresh=force_refresh)
 
     if not events:
-        print(f"  No NBA events found on {date_str}.")
+        print(ts(f"  No NBA events found on {date_str}."))
         return []
 
-    print(f"  {len(events)} event(s) on {date_str}:")
+    print(ts(f"  {len(events)} event(s) on {date_str}:"))
     for e in events:
         print(f"    {e['away_team']} @ {e['home_team']}")
 
     if dry_run:
-        print("  [dry-run] Stopping before props pull.")
+        print(ts("  [dry-run] Stopping before props pull."))
         return []
 
     rows = pull_props(date_str, home_team=home_team, away_team=away_team,

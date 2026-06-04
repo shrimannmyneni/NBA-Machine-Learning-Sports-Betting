@@ -2,6 +2,8 @@ import argparse
 from datetime import datetime, timedelta
 from pathlib import Path
 
+from src.Utils.ts import ts
+
 import pandas as pd
 import tensorflow as tf
 from colorama import Fore, Style
@@ -94,7 +96,7 @@ def resolve_games(odds, sportsbook):
     if odds:
         games = create_todays_games_from_odds(odds)
         if len(games) == 0:
-            print("No games found.")
+            print(ts("No games found."))
             return None, None
         game_key = f"{games[0][0]}:{games[0][1]}"
         if game_key not in odds:
@@ -105,7 +107,7 @@ def resolve_games(odds, sportsbook):
             )
             print(Style.RESET_ALL)
             return games, None
-        print(f"------------------{sportsbook} odds data------------------")
+        print(ts(f"------------------{sportsbook} odds data------------------"))
         for game_key in odds.keys():
             home_team, away_team = game_key.split(":")
             print(
@@ -173,10 +175,10 @@ def main(args):
             prop_bets = props_runner(csv_path)
             all_bets.extend(prop_bets)
         else:
-            print(f"[props] CSV not found at {props_csv}. Skipping props.")
+            print(ts(f"[props] CSV not found at {props_csv}. Skipping props."))
 
     if all_bets:
-        print("\n-----------Top Ranked Bets (Weighted Bet Value)----------")
+        print(ts("-----------Top Ranked Bets (Weighted Bet Value)----------"))
         top_bets = Ranker.rank_bets(all_bets, top_n=10)
         Output_Formatter.print_ranked_table(top_bets)
 
