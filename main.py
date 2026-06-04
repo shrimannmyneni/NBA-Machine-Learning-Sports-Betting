@@ -27,7 +27,7 @@ SCHEDULE_PATH = "Data/nba-2025-UTC.csv"
 DEFAULT_PROPS_CSV = "tmp_data/props.csv"
 
 
-def create_todays_games_data(games, df, odds, schedule_df, today):
+def create_todays_games_data(games, df, odds, schedule_df, today, sportsbook=None):
     match_data = []
     todays_games_uo = []
     home_team_odds = []
@@ -44,6 +44,12 @@ def create_todays_games_data(games, df, odds, schedule_df, today):
             home_team_odds.append(game_odds[home_team]['money_line_odds'])
             away_team_odds.append(game_odds[away_team]['money_line_odds'])
         else:
+            # input() is only appropriate when no -odds flag was given.
+            # If -odds was explicitly passed, the odds fetch failed upstream
+            # and we should not block waiting for keyboard input.
+            if sportsbook:
+                print(ts(f"[error] -{sportsbook} odds were requested but none are available. Cannot continue."))
+                return None
             todays_games_uo.append(input(home_team + ' vs ' + away_team + ': '))
             home_team_odds.append(input(home_team + ' odds: '))
             away_team_odds.append(input(away_team + ' odds: '))
@@ -96,10 +102,16 @@ def resolve_games(odds, sportsbook):
     if odds:
         games = create_todays_games_from_odds(odds)
         if len(games) == 0:
+            if sportsbook:
+                print(ts(f"[{sportsbook}] Odds returned but no games found — no game today or feed is empty."))
+                return None, None
             print(ts("No games found."))
             return None, None
         game_key = f"{games[0][0]}:{games[0][1]}"
         if game_key not in odds:
+            if sportsbook:
+                print(ts(f"[{sportsbook}] Game key '{game_key}' not in odds — team list may be outdated."))
+                return None, None
             print(game_key)
             print(
                 Fore.RED,
@@ -115,6 +127,11 @@ def resolve_games(odds, sportsbook):
                 f"{home_team} ({odds[game_key][home_team]['money_line_odds']})"
             )
         return games, odds
+
+    # -odds was explicitly passed but the fetch returned nothing
+    if sportsbook:
+        print(ts(f"[{sportsbook}] No odds returned — no game today or sportsbook feed is down."))
+        return None, None
 
     games_json = get_todays_games_json(TODAYS_GAMES_URL)
     return create_todays_games(games_json), None
@@ -140,16 +157,20 @@ def main(args):
     if args.odds:
         odds = SbrOddsProvider(sportsbook=args.odds).get_odds()
     games, odds = resolve_games(odds, args.odds)
-    if games is None:
+    if not games:
+        print(ts("No games found for today. Exiting."))
         return
 
     stats_json = get_json_data(DATA_URL)
     df = to_data_frame(stats_json)
     schedule_df = load_schedule()
     today = datetime.today()
-    data, todays_games_uo, frame_ml, home_team_odds, away_team_odds = create_todays_games_data(
-        games, df, odds, schedule_df, today
+    result = create_todays_games_data(
+        games, df, odds, schedule_df, today, sportsbook=args.odds
     )
+    if result is None:
+        return
+    data, todays_games_uo, frame_ml, home_team_odds, away_team_odds = result
 
     if args.A:
         args.xgb = True
