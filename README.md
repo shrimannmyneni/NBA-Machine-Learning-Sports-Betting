@@ -26,24 +26,46 @@ Install dependencies:
 pip3 install -r requirements.txt
 ```
 
-## Before running (game day)
+## Game day (automated)
 
-Steps to run each day before calling `main.py`:
+Set your API key once:
+```bash
+export ODDS_API_KEY=your_key_here   # or add to .env and source it
+```
 
-1. **Update team stats** — pulls the latest rolling averages from stats.nba.com into `TeamData.sqlite`:
+Then one command does everything — pulls lines, archives them, retrains, predicts:
+```bash
+./scripts/game_day.sh --home "San Antonio Spurs" --away "New York Knicks"
+```
+
+After the final buzzer, label outcomes and grow the training dataset:
+```bash
+./scripts/label_last_game.sh
+```
+
+Retrain the props model after a few labeled games:
+```bash
+./scripts/train_props.sh
+```
+
+Dry-run (lists tonight's games, costs 1 API credit, pulls nothing):
+```bash
+./scripts/game_day.sh --dry-run
+```
+
+### Manual game day (no API key)
+
+1. **Update team stats**:
    ```bash
    python -m src.Process-Data.Get_Data
    ```
-
-2. **Odds** — no manual step needed. Pass `-odds <sportsbook>` at runtime and they are fetched automatically.
-
-3. ***(Props only)* Prepare the props CSV** — run your Perplexity → Claude formatting pipeline and save the output to `tmp_data/props.csv`. Required columns: `Player, Team, Opponent, PropType, Line, Odds, Sportsbook`. Optional columns: `Direction` (default `OVER`), `ModelProb` (float 0–1 win probability from your model or Claude).
-
-4. ***(Props only, optional)* Build the props dataset** — merges your CSV with Basketball Reference opponent defensive stats into `Data/props_dataset.sqlite`:
+2. **Prepare props CSV manually** — save to `tmp_data/props.csv` with columns:
+   `Player, Team, Opponent, PropType, Line, Odds, Sportsbook` (plus optional `Direction`, `ModelProb`).
+3. **Archive and run**:
    ```bash
-   python -m src.Process-Data.Create_PlayerProps_Games --csv tmp_data/props.csv
+   ./scripts/archive_props.sh
+   python3 main.py -A -odds betmgm -props
    ```
-   Skip this if you just want EV rankings without defensive features.
 
 ## Quick start
 ```bash
