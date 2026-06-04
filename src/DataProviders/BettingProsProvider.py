@@ -226,7 +226,7 @@ def _fetch_offers(event_id, market_id, date_str, force_refresh=False):
     import requests
 
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    cache_path = CACHE_DIR / f"{date_str}_{market_id}.json"
+    cache_path = CACHE_DIR / f"{date_str}_{event_id}_{market_id}.json"
 
     if cache_path.exists() and not force_refresh:
         with open(cache_path) as f:
