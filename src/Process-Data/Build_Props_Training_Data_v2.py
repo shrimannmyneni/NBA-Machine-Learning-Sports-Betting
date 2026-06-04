@@ -23,7 +23,7 @@ from datetime import datetime
 from pathlib import Path
 
 from src.DataProviders.BRefDefenseProvider import get_team_defense
-from src.DataProviders.BRefPlayerStatsProvider import PLAYER_TO_BREF_ID, get_player_game_log
+from src.DataProviders.BRefPlayerStatsProvider import get_player_game_log
 
 ARCHIVE_DIR = Path(__file__).resolve().parents[2] / "Data" / "prop_archives"
 TMP_DIR     = Path(__file__).resolve().parents[2] / "tmp_data"
@@ -159,17 +159,10 @@ def build_feature_rows(archive_rows, defense_cache, game_log_cache):
         if not stat_col:
             continue
 
-        if player not in PLAYER_TO_BREF_ID:
-            continue
-
         # Game log cached in memory — one BRef fetch (or cache read) per player.
         if player not in game_log_cache:
             year = _season_year(game_date)
-            try:
-                game_log_cache[player] = get_player_game_log(player, year=year)
-            except Exception as exc:
-                print(f"  [skip] {player}: {exc}")
-                game_log_cache[player] = []
+            game_log_cache[player] = get_player_game_log(player, year=year)
 
         game_log = game_log_cache[player]
         if not game_log:
@@ -254,31 +247,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
-
-This replaces the contaminated v1 training signal. Each labeled game in `data/prop_archives/` contributes one real observation per prop: the actual line posted that night, the actual outcome, and rolling stats computed from games strictly before that date.
-
-**File 4 done.** Key decisions:
-
-- `seen` set deduplicates `(player, prop_type, game_date)` — OVER and UNDER rows for the same prop describe the same game outcome, so we keep only the first. Model target is always P(OVER hits) regardless of which direction row came first.
-- `_season_year()` infers the BRef year from the game date (Oct–Dec of year N → season N+1) so the same script works across multiple seasons automatically.
-- Defense cache is keyed `(opponent, year)` so cross-season archives don't collide.
-- Skips archives missing the `Hit` column cleanly with a message pointing to `label_last_game.sh`.
-
----
-
-The full post-game workflow is now:
-
-```bash
-# Before tip-off (already done for June 3):
-./scripts/archive_props.sh
-
-# After final buzzer:
-./scripts/label_last_game.sh
-
-# Retrain on real data:
-python -m src.Process-Data.Build_Props_Training_Data_v2
-python -m src.Train-Models.Props_Model
-```
-
-Want to commit all four new files?

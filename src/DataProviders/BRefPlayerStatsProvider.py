@@ -81,6 +81,8 @@ def _fetch_game_log(player_id, year):
     )
     time.sleep(_REQUEST_DELAY_SECONDS)
     resp = requests.get(url, headers=_HEADERS, timeout=20)
+    if resp.status_code == 404:
+        return []  # wrong ID — auto-derivation miss
     resp.raise_for_status()
 
     from bs4 import BeautifulSoup  # noqa: F811 — needed after lazy import
@@ -155,21 +157,50 @@ def _fetch_game_log(player_id, year):
     return games
 
 
+def _auto_bref_id(player_name):
+    """
+    Derives a BRef player ID using the standard convention:
+        first5(lastname) + first2(firstname) + '01'
+
+    Handles apostrophes, hyphens, Jr/Sr/II/III suffixes.
+    Returns the derived candidate ID (may not be valid — caller handles 404).
+    """
+    parts = player_name.strip().split()
+    if len(parts) < 2:
+        return None
+
+    first = parts[0]
+    last_parts = parts[1:]
+    # Strip common suffixes from last name
+    last_parts = [p for p in last_parts
+                  if p.lower().rstrip(".") not in ("jr", "sr", "ii", "iii", "iv")]
+    if not last_parts:
+        return None
+
+    last = "".join(last_parts)
+    first_clean = re.sub(r"[^a-z]", "", first.lower())
+    last_clean  = re.sub(r"[^a-z]", "", last.lower())
+
+    if not first_clean or not last_clean:
+        return None
+
+    return f"{last_clean[:5]}{first_clean[:2]}01"
+
+
 def get_player_game_log(player_name, year=2026, force_refresh=False):
     """
     Full season game log for a player, sorted chronologically.
     Each element: {date, opp, home, pts, trb, ast, fg3, mp}
 
-    Raises ValueError if the player is not in PLAYER_TO_BREF_ID.
+    Uses PLAYER_TO_BREF_ID for known players; auto-derives the BRef ID for
+    unknown players using the standard naming convention. Returns [] if the
+    player cannot be found on BRef (wrong auto-derived ID → 404 cached as []).
     """
     TMP_DIR.mkdir(parents=True, exist_ok=True)
 
-    player_id = PLAYER_TO_BREF_ID.get(player_name)
+    player_id = PLAYER_TO_BREF_ID.get(player_name) or _auto_bref_id(player_name)
     if player_id is None:
-        raise ValueError(
-            f"Unknown player '{player_name}'. "
-            f"Add them to PLAYER_TO_BREF_ID in BRefPlayerStatsProvider.py."
-        )
+        return []
 
     cache_path = TMP_DIR / f"{player_id}_{year}.json"
     if cache_path.exists() and not force_refresh:
