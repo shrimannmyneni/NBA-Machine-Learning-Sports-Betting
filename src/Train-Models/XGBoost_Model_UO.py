@@ -1,5 +1,6 @@
 import argparse
 import sqlite3
+from datetime import date
 from pathlib import Path
 
 import joblib
@@ -9,6 +10,13 @@ import xgboost as xgb
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.metrics import accuracy_score, log_loss
 from sklearn.model_selection import TimeSeriesSplit
+
+try:
+    import mlflow
+    import mlflow.xgboost
+    _MLFLOW_AVAILABLE = True
+except ImportError:
+    _MLFLOW_AVAILABLE = False
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 DATASET_DB = BASE_DIR / "Data" / "dataset.sqlite"
@@ -243,6 +251,30 @@ def main():
         calibration_path = MODEL_DIR / f"{model_path.stem}_calibration.pkl"
         joblib.dump(calibrator, calibration_path)
         print(f"Saved calibration: {calibration_path}")
+
+    try:
+        if _MLFLOW_AVAILABLE:
+            season = args.dataset.replace("dataset_", "")
+            mlflow.set_experiment("team-model-uo")
+            with mlflow.start_run():
+                mlflow.log_params({
+                    "n_estimators":    best["num_boost_round"],
+                    "max_depth":       best["params"]["max_depth"],
+                    "learning_rate":   round(best["params"]["eta"], 6),
+                    "n_training_rows": len(X_train_val),
+                })
+                mlflow.log_metrics({
+                    "accuracy":     round(accuracy, 4),
+                    "val_log_loss": round(best["val_loss"], 4),
+                })
+                mlflow.xgboost.log_model(best_model, name="model")
+                mlflow.set_tags({
+                    "run_date": str(date.today()),
+                    "season":   season,
+                })
+            print(f"[MLflow] Run logged to experiment 'team-model-uo'")
+    except Exception as exc:
+        print(f"[MLflow] Logging skipped — {exc}")
 
 
 if __name__ == "__main__":

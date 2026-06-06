@@ -12,4 +12,5 @@ def rank_bets(bets, top_n=10):
             bet.get("confidence", 0.0),
             bet.get("kelly", 0.0),
         )
-    return sorted(bets, key=lambda x: x["weighted_value"], reverse=True)[:top_n]
+    ranked = sorted(bets, key=lambda x: x["weighted_value"], reverse=True)
+    return ranked if top_n == 0 else ranked[:top_n]

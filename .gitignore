@@ -112,3 +112,7 @@ temp/
 
 # Player props scrape cache and formatted CSVs — not committed
 tmp_data/
+
+# MLflow run artifacts and local tracking DB — not committed
+mlruns/
+mlflow.db

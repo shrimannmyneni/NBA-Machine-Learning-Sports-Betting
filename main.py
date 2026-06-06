@@ -209,7 +209,9 @@ def main(args):
 
     if all_bets:
         print(ts("-----------Top Ranked Bets (Weighted Bet Value)----------"))
-        top_bets = Ranker.rank_bets(all_bets, top_n=10)
+        
+        top_bets = Ranker.rank_bets(all_bets)
+
         Output_Formatter.print_ranked_table(top_bets)
 
 

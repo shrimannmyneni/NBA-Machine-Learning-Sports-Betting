@@ -28,6 +28,13 @@ from sklearn.calibration import CalibratedClassifierCV
 from sklearn.metrics import accuracy_score, log_loss, roc_auc_score
 from sklearn.model_selection import TimeSeriesSplit
 
+try:
+    import mlflow
+    import mlflow.xgboost
+    _MLFLOW_AVAILABLE = True
+except ImportError:
+    _MLFLOW_AVAILABLE = False
+
 BASE_DIR     = Path(__file__).resolve().parents[2]
 TRAINING_CSV = BASE_DIR / "tmp_data" / "props_training.csv"
 MODEL_DIR    = BASE_DIR / "Models" / "Props_Models"
@@ -70,10 +77,12 @@ def load_and_prepare(csv_path):
     # line_over_avg is None when stat_avg was 0; treat as "line equals average".
     df["line_over_avg"] = df["line_over_avg"].fillna(1.0)
 
+    prop_types = sorted(df["prop_type"].dropna().unique().tolist())
+
     X = df[FEATURE_COLS].astype(float).to_numpy()
     y = df[TARGET_COL].astype(int).to_numpy()
 
-    return X, y, def_median
+    return X, y, def_median, prop_types
 
 
 # ---------------------------------------------------------------------------
@@ -146,6 +155,61 @@ class _BoosterWrapper:
 
 
 # ---------------------------------------------------------------------------
+# MLflow helpers
+# ---------------------------------------------------------------------------
+
+def _count_labeled_archives(base_dir):
+    count = 0
+    for p in (base_dir / "Data" / "prop_archives").glob("*.csv"):
+        try:
+            df = pd.read_csv(p, usecols=["Hit"])
+            if df["Hit"].notna().any():
+                count += 1
+        except Exception:
+            pass
+    return count
+
+
+def _log_to_mlflow(best, accuracy, auc, tl, calib_a, calib_b,
+                   best_model, training_csv_path, n_training_rows,
+                   hit_rate, prop_types):
+    mlflow.set_experiment("props-model")
+    with mlflow.start_run():
+        mlflow.log_params({
+            "n_estimators":     best["num_boost_round"],
+            "max_depth":        best["params"]["max_depth"],
+            "learning_rate":    round(best["params"]["eta"], 6),
+            "subsample":        round(best["params"]["subsample"], 4),
+            "colsample_bytree": round(best["params"]["colsample_bytree"], 4),
+            "n_training_rows":  n_training_rows,
+            "hit_rate":         round(hit_rate, 4),
+            "prop_types":       str(prop_types),
+        })
+
+        metrics = {
+            "val_log_loss":  round(best["val_loss"], 4),
+            "test_accuracy": round(accuracy, 4),
+            "test_roc_auc":  round(auc, 4),
+            "test_log_loss": round(tl, 4),
+        }
+        if calib_a is not None:
+            metrics["calibration_a"] = round(calib_a, 6)
+        if calib_b is not None:
+            metrics["calibration_b"] = round(calib_b, 6)
+        mlflow.log_metrics(metrics)
+
+        mlflow.xgboost.log_model(best_model, name="model")
+        mlflow.log_artifact(str(training_csv_path))
+
+        mlflow.set_tags({
+            "run_date":           str(date.today()),
+            "n_games_in_archive": str(_count_labeled_archives(BASE_DIR)),
+        })
+
+    print(ts("[MLflow] Run logged to experiment 'props-model'"))
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -166,7 +230,7 @@ def main():
         print(ts("Run: python -m src.Process-Data.Build_Props_Training_Data first."))
         return
 
-    X, y, def_median = load_and_prepare(args.csv)
+    X, y, def_median, prop_types = load_and_prepare(args.csv)
     print(ts(f"Loaded {len(X)} training rows, {int(y.sum())} hits ({y.mean()*100:.1f}% hit rate)."))
 
     X_tv, y_tv, X_test, y_test = split_temporal(X, y)
@@ -245,6 +309,18 @@ def main():
     with open(meta_path, "w") as f:
         json.dump(meta, f, indent=2)
     print(ts(f"Saved meta        : {meta_path}"))
+
+    try:
+        if _MLFLOW_AVAILABLE:
+            _log_to_mlflow(
+                best, accuracy, auc, tl, calib_a, calib_b,
+                best_model, args.csv,
+                n_training_rows=len(X),
+                hit_rate=float(y.mean()),
+                prop_types=prop_types,
+            )
+    except Exception as exc:
+        print(ts(f"[MLflow] Logging skipped — {exc}"))
 
 
 if __name__ == "__main__":
