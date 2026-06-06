@@ -19,9 +19,9 @@ ts "=== train_props.sh start ==="
 # ── Step 1: scrape game logs + build training CSV ──────────────────────────
 ts "Step 1/3 — Build_Props_Training_Data"
 if [[ $DEBUG -eq 1 ]]; then
-  python -m src.Process-Data.Build_Props_Training_Data --csv tmp_data/props.csv
+  python -m src.Process-Data.Build_Props_Training_Data_v2
 else
-  python -m src.Process-Data.Build_Props_Training_Data --csv tmp_data/props.csv \
+  python -m src.Process-Data.Build_Props_Training_Data_v2 \
     2>&1 | grep -E '^\[|Processing|→|Wrote|No training'
 fi
 ts "Step 1 done"
