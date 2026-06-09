@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NBA Edge Lab — Lines Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0b0f17;
+            --surface: rgba(16, 24, 40, 0.88);
+            --surface-strong: #141c31;
+            --stroke: rgba(255, 255, 255, 0.08);
+            --text: #f2f5ff;
+            --muted: #9aa6c7;
+            --accent: #2f7cf6;
+            --accent-2: #23d6c6;
+            --gold: #ffb800;
+            --positive: #2dd36f;
+            --negative: #ff6b6b;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Manrope", sans-serif;
+            background: radial-gradient(circle at top, #162036 0%, #0b0f17 55%, #080b14 100%);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        a { color: inherit; }
+        .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px 60px; }
+
+        /* ── Header ─────────────────────────────────────────────────────── */
+        .lines-header {
+            background: var(--surface);
+            border: 1px solid var(--stroke);
+            border-radius: var(--radius-lg);
+            padding: 22px 26px;
+            margin-bottom: 22px;
+        }
+        .back-link {
+            display: inline-block;
+            font-size: 13px;
+            color: var(--muted);
+            text-decoration: none;
+            margin-bottom: 14px;
+        }
+        .back-link:hover { color: var(--text); }
+        .matchup {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+            font-family: "JetBrains Mono", monospace;
+            font-weight: 600;
+            font-size: 26px;
+            flex-wrap: wrap;
+        }
+        .matchup .at { color: var(--muted); font-size: 16px; }
+        .matchup .home { color: var(--accent-2); }
+        .matchup .away { color: var(--gold); }
+        .meta {
+            margin-top: 8px;
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            color: var(--muted);
+            font-size: 13px;
+        }
+        .status {
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .badge-status {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+        }
+        .badge-status.live { color: var(--positive); background: rgba(45, 211, 111, 0.12); border-color: rgba(45, 211, 111, 0.35); }
+        .badge-status.pending { color: var(--gold); background: rgba(255, 184, 0, 0.12); border-color: rgba(255, 184, 0, 0.35); }
+        .generated { color: var(--muted); font-size: 12px; font-family: "JetBrains Mono", monospace; }
+
+        .banner-warn {
+            background: rgba(255, 184, 0, 0.1);
+            border: 1px solid rgba(255, 184, 0, 0.3);
+            color: var(--gold);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        /* ── Tabs ───────────────────────────────────────────────────────── */
+        .tab-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .tab-btn {
+            background: var(--surface);
+            border: 1px solid var(--stroke);
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 9px 16px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .tab-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.18); }
+        .tab-btn.active { color: var(--bg); background: var(--accent-2); border-color: var(--accent-2); }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ── Table ──────────────────────────────────────────────────────── */
+        .lines-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            border: 1px solid var(--stroke);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            font-size: 14px;
+        }
+        .lines-table th {
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--stroke);
+            background: var(--surface-strong);
+        }
+        .lines-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--stroke);
+            font-family: "JetBrains Mono", monospace;
+        }
+        .lines-table tbody tr:last-child td { border-bottom: none; }
+        .lines-table tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
+        .lines-table td.label { font-family: "Manrope", sans-serif; font-weight: 600; }
+        .empty-row { text-align: center; color: var(--muted); font-family: "Manrope", sans-serif; padding: 28px; }
+
+        .badge {
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 999px;
+            vertical-align: middle;
+        }
+        .badge-ml { color: var(--accent-2); background: rgba(35, 214, 198, 0.12); border: 1px solid rgba(35, 214, 198, 0.3); }
+        .badge-odds { color: var(--muted); background: rgba(255, 255, 255, 0.06); border: 1px solid var(--stroke); }
+
+        .odds-pos { color: var(--positive); }
+        .odds-neg { color: var(--negative); }
+        .implied-prob, .model-prob { color: var(--text); }
+
+        .wbv {
+            display: inline-block;
+            min-width: 52px;
+            text-align: center;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+        .wbv-high { color: #0b0f17; background: var(--positive); }
+        .wbv-mid  { color: var(--bg); background: var(--gold); }
+        .wbv-low  { color: var(--text); background: rgba(255, 255, 255, 0.08); }
+        .wbv-na   { color: var(--muted); background: transparent; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <header class="lines-header">
+        <a href="/" class="back-link">← Back to Dashboard</a>
+        <div class="matchup">
+            <span class="team away">{{ game.away or '—' }}</span>
+            <span class="at">@</span>
+            <span class="team home">{{ game.home or '—' }}</span>
+        </div>
+        <div class="meta">
+            <span>{{ game.date or '' }}</span>
+            <span>{{ game.tip_off or '' }}</span>
+            <span>{{ game.venue or '' }}</span>
+            <span>{{ game.sportsbook or '' }}</span>
+        </div>
+        <div class="status">
+            {% if model_available %}
+            <span class="badge-status live">Model: LIVE</span>
+            {% else %}
+            <span class="badge-status pending">Model: PENDING</span>
+            {% endif %}
+            <span class="generated">Generated: {{ generated_at.strftime('%I:%M %p') }}</span>
+        </div>
+    </header>
+
+    {% if not lines_loaded %}
+    <div class="banner-warn">
+        Drop today's lines into tmp_data/manual_lines.json to populate this page.
+    </div>
+    {% endif %}
+
+    {% macro market_table(items) %}
+    <table class="lines-table">
+        <thead>
+            <tr>
+                <th>Selection</th>
+                <th>Odds</th>
+                <th>Implied %</th>
+                <th>Model %</th>
+                <th>EV</th>
+                <th>Kelly</th>
+                <th>WBV</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td class="label">
+                    {{ item.label }}
+                    {% if item.odds_only %}
+                    <span class="badge badge-odds">odds-est</span>
+                    {% else %}
+                    <span class="badge badge-ml">ML model</span>
+                    {% endif %}
+                </td>
+                <td class="{{ 'odds-pos' if item.odds is not none and item.odds > 0 else 'odds-neg' }}">
+                    {%- if item.odds is none -%}
+                        N/A
+                    {%- else -%}
+                        {{ '+' if item.odds > 0 else '' }}{{ item.odds }}
+                    {%- endif -%}
+                </td>
+                <td class="implied-prob">
+                    {{ "%.1f"|format(item.implied_prob * 100) if item.implied_prob is not none else '—' }}%
+                </td>
+                <td class="model-prob">
+                    {{ "%.1f"|format(item.model_prob * 100) ~ '%' if item.model_prob is not none else '—' }}
+                </td>
+                <td class="{{ 'odds-pos' if item.ev is not none and item.ev > 0 else ('odds-neg' if item.ev is not none and item.ev < 0 else '') }}">
+                    {{ "%+.1f"|format(item.ev) if item.ev is not none else '—' }}
+                </td>
+                <td>
+                    {{ "%.2f"|format(item.kelly) ~ '%' if item.kelly is not none else '—' }}
+                </td>
+                <td>
+                    <span class="wbv {{ wbv_class(item.wbv) }}">
+                        {{ "%.1f"|format(item.wbv) if item.wbv is not none else 'n/a' }}
+                    </span>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7" class="empty-row">No lines loaded for this market.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endmacro %}
+
+    {% set tabs = [
+        ("moneyline", "Moneyline"),
+        ("spread", "Spread"),
+        ("halftime_fulltime", "Halftime / Fulltime"),
+        ("matchbet_total", "Match Bet + Total"),
+        ("overtime", "Overtime"),
+        ("winning_margin_home", "Winning Margin"),
+        ("odd_even", "Odd / Even"),
+        ("race_to_x_home", "Race to X"),
+    ] %}
+
+    <div class="tab-bar" id="tab-bar">
+        {% for key, label in tabs %}
+        <button class="tab-btn {{ 'active' if loop.first else '' }}" data-tab="{{ key }}">{{ label }}</button>
+        {% endfor %}
+    </div>
+
+    {% for key, label in tabs %}
+    <div class="tab-panel {{ 'active' if loop.first else '' }}" data-panel="{{ key }}">
+        {{ market_table(markets[key]) }}
+    </div>
+    {% endfor %}
+
+</div>
+
+<script>
+    document.querySelectorAll('.tab-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var target = btn.getAttribute('data-tab');
+            document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+            document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
+            btn.classList.add('active');
+            document.querySelector('.tab-panel[data-panel="' + target + '"]').classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>

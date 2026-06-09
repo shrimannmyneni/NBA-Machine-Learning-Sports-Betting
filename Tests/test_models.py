@@ -65,6 +65,33 @@ def test_props_runner_output_shape(mocker):
         assert not missing, f"Bet dict missing keys: {missing} — got {list(bet.keys())}"
 
 
+# ── Latest meta quality gates ─────────────────────────────────────────────────
+
+def test_props_model_latest_is_v2_trained(latest_props_meta):
+    n = latest_props_meta.get("n_training_rows")
+    if n is None:
+        pytest.skip("n_training_rows not in meta — retrain model to populate this field")
+    assert n > 2000, (
+        f"n_training_rows={n} is below 2000 — model may have been trained on v1/contaminated data"
+    )
+
+
+def test_props_model_auc_above_threshold(latest_props_meta):
+    auc = latest_props_meta.get("roc_auc")
+    assert auc is not None, "roc_auc missing from latest meta JSON"
+    assert auc > 0.52, (
+        f"roc_auc={auc:.4f} is at or below 0.52 — model has regressed toward random noise"
+    )
+
+
+def test_props_model_accuracy_above_threshold(latest_props_meta):
+    acc = latest_props_meta.get("accuracy")
+    assert acc is not None, "accuracy missing from latest meta JSON"
+    assert acc > 0.50, (
+        f"accuracy={acc:.4f} is at or below 0.50 — model performs no better than a coin flip"
+    )
+
+
 def test_props_runner_no_crash_empty_csv(tmp_path, mocker):
     mocker.patch("src.Predict.PlayerProps_Runner.get_rolling_averages", return_value=_MOCK_ROLLING_AVGS)
     mocker.patch("src.Predict.PlayerProps_Runner.get_team_defense",     return_value=_MOCK_TEAM_DEFENSE)

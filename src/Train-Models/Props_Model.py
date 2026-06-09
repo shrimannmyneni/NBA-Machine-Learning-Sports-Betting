@@ -302,6 +302,7 @@ def main():
         "accuracy":            round(accuracy, 4),
         "roc_auc":             round(auc, 4),
         "trained_on":          str(date.today()),
+        "n_training_rows":     len(X),
         "calib_a":             calib_a,
         "calib_b":             calib_b,
     }

@@ -28,6 +28,16 @@ def test_auto_bref_id_jr_suffix():
     assert _auto_bref_id("Jaren Jackson Jr.") == "jacksja01"
 
 
+def test_train_props_sh_uses_v2():
+    source = (PROJECT_ROOT / "scripts/train_props.sh").read_text()
+    assert "Build_Props_Training_Data_v2" in source, (
+        "train_props.sh does not call Build_Props_Training_Data_v2 — v1/v2 regression"
+    )
+    assert "Build_Props_Training_Data --csv" not in source, (
+        "train_props.sh still contains old v1 invocation 'Build_Props_Training_Data --csv'"
+    )
+
+
 def test_main_exits_cleanly_no_game(mocker, capsys):
     import main as main_module
 

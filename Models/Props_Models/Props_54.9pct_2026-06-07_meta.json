@@ -1,0 +1,28 @@
+{
+  "feature_cols": [
+    "stat_avg",
+    "stat_std",
+    "line",
+    "line_over_avg",
+    "opp_def_stat",
+    "home",
+    "days_rest",
+    "prop_pts",
+    "prop_reb",
+    "prop_ast",
+    "prop_3pm"
+  ],
+  "prop_one_hot": {
+    "Points": "prop_pts",
+    "Rebounds": "prop_reb",
+    "Assists": "prop_ast",
+    "3-Pointers": "prop_3pm"
+  },
+  "opp_def_stat_median": NaN,
+  "accuracy": 0.5492,
+  "roc_auc": 0.5633,
+  "trained_on": "2026-06-07",
+  "n_training_rows": 2913,
+  "calib_a": -3.7736969090693298,
+  "calib_b": 1.9381045383913957
+}

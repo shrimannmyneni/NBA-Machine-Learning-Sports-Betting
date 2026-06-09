@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -18,6 +19,30 @@ def props_csv():
     if not path.exists():
         pytest.skip("tmp_data/props.csv not present — pull props first")
     return pd.read_csv(path)
+
+
+@pytest.fixture(scope="session")
+def latest_props_meta():
+    models_dir = PROJECT_ROOT / "Models" / "Props_Models"
+    meta_files = list(models_dir.glob("*_meta.json"))
+    if not meta_files:
+        pytest.skip("No Props_Models meta JSON found — train a model first")
+    latest = max(meta_files, key=lambda p: p.stat().st_mtime)
+    return json.loads(latest.read_text())
+
+
+@pytest.fixture(scope="session")
+def latest_mlflow_run():
+    import mlflow
+    mlflow.set_tracking_uri(f"sqlite:///{PROJECT_ROOT}/mlflow.db")
+    try:
+        runs = mlflow.search_runs(experiment_names=["props-model"])
+    except Exception as exc:
+        pytest.skip(f"Could not query props-model experiment: {exc}")
+    finished = runs[runs["status"] == "FINISHED"]
+    if finished.empty:
+        pytest.skip("No completed props-model runs found — run Props_Model.py first")
+    return finished.sort_values("start_time", ascending=False).iloc[0]
 
 
 @pytest.fixture
