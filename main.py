@@ -209,10 +209,16 @@ def main(args):
 
     if all_bets:
         print(ts("-----------Top Ranked Bets (Weighted Bet Value)----------"))
-        
+
         top_bets = Ranker.rank_bets(all_bets)
 
         Output_Formatter.print_ranked_table(top_bets)
+
+        safe_picks = Ranker.rank_safe_picks(all_bets)
+        if safe_picks:
+            Output_Formatter.print_safe_picks_table(safe_picks)
+        else:
+            print(ts("[Safe Picks] No favored bets with >55% confidence found."))
 
 
 if __name__ == "__main__":

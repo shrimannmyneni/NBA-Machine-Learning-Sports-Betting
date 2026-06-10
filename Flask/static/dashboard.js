@@ -5,10 +5,11 @@ const statusDot     = document.getElementById('status-dot');
 const statusText    = document.getElementById('status-text');
 
 // ── State ────────────────────────────────────────────────────────────────────
-let activeSource = null;  // current EventSource
-let inTable      = false; // are we buffering a ranked-bets table?
-let tableHeaders = [];
-let tableRows    = [];
+let activeSource  = null;  // current EventSource
+let inTable       = false; // are we buffering a ranked-bets table?
+let tableHeaders  = [];
+let tableRows     = [];
+let safePicksMode = false; // true when the table currently buffering is "Safe Picks"
 
 // ── Status indicator ─────────────────────────────────────────────────────────
 function setRunning(running) {
@@ -158,12 +159,18 @@ function appendNode(node) {
 //   -------...-------   ← closing separator
 
 function resetTableState() {
-    inTable      = false;
-    tableHeaders = [];
-    tableRows    = [];
+    inTable       = false;
+    tableHeaders  = [];
+    tableRows     = [];
+    safePicksMode = false;
 }
 
 function processLine(line) {
+    // Flag the next table as "Safe Picks" so it renders with gold styling
+    if (!inTable && /Safe Picks/.test(line)) {
+        safePicksMode = true;
+    }
+
     // Detect table column-header row
     if (!inTable && /\bPlayer\/Team\b/.test(line) && line.includes('|')) {
         inTable      = true;
@@ -201,17 +208,22 @@ function flushTableIfPending() {
     }
     inTable = false;
 
+    const isSafePicks = safePicksMode;
+    safePicksMode = false; // reset for the next table
+
     // Build Bootstrap table
     const wrapper = document.createElement('div');
-    wrapper.className = 'ranked-table-wrap';
+    wrapper.className = 'ranked-table-wrap' + (isSafePicks ? ' ranked-table-wrap--safe' : '');
 
     const caption = document.createElement('div');
-    caption.className = 'term-table-caption';
-    caption.textContent = '── Top Ranked Bets ─────────────────────────────────';
+    caption.className = 'term-table-caption' + (isSafePicks ? ' term-table-caption--safe' : '');
+    caption.textContent = isSafePicks
+        ? '── Safe Picks (High Confidence Favored Bets) ───────'
+        : '── Top Ranked Bets ─────────────────────────────────';
     wrapper.appendChild(caption);
 
     const table = document.createElement('table');
-    table.className = 'table table-dark table-sm ranked-table';
+    table.className = 'table table-dark table-sm ranked-table' + (isSafePicks ? ' ranked-table--safe' : '');
 
     const thead = document.createElement('thead');
     const hrow  = document.createElement('tr');
@@ -228,10 +240,12 @@ function flushTableIfPending() {
         const tr = document.createElement('tr');
         cells.forEach((cell, i) => {
             const td = document.createElement('td');
-            // Highlight positive Weighted Bet Value
+            // Highlight positive value in the last column (Weighted/Safe Pick Value)
             if (i === tableHeaders.length - 1) {
                 const val = parseFloat(cell);
-                if (!isNaN(val) && val > 0) td.className = 'term-positive';
+                if (!isNaN(val) && val > 0) {
+                    td.className = isSafePicks ? 'term-positive-gold' : 'term-positive';
+                }
             }
             td.textContent = cell;
             tr.appendChild(td);

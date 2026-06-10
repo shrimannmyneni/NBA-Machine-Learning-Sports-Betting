@@ -52,3 +52,27 @@ def print_ranked_table(bets):
             f"{bet.get('weighted_value', 0.0):>{_COL_WBV}.4f}"
         )
     print(divider)
+
+
+def print_safe_picks_table(bets):
+    print("--- Safe Picks (High Confidence Favored Bets) ---")
+    header = (
+        f"{'Player/Team':<{_COL_TEAM}} | "
+        f"{'Event':<{_COL_EVENT}} | "
+        f"{'Odds':>{_COL_ODDS}} | "
+        f"{'Safe Pick Value':>{_COL_WBV}}"
+    )
+    divider = "-" * len(header)
+    print(divider)
+    print(header)
+    print(divider)
+    for bet in bets:
+        model_tag = f"[{bet['model']}] " if bet.get("model") else ""
+        event = model_tag + bet.get("event", "")
+        print(
+            f"{bet['team_or_player']:<{_COL_TEAM}} | "
+            f"{event:<{_COL_EVENT}} | "
+            f"{_odds_str(bet.get('odds')):>{_COL_ODDS}} | "
+            f"{bet.get('safe_pick_value', 0.0):>{_COL_WBV}.4f}"
+        )
+    print(divider)

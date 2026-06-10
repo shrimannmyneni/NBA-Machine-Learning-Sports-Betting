@@ -927,6 +927,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     white-space: pre;
 }
 
+.term-table-caption--safe {
+    color: var(--accent-3);
+}
+
 .ranked-table {
     font-family: "JetBrains Mono", monospace;
     font-size: 11.5px;
@@ -953,3 +957,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .ranked-table tbody tr:hover td {
     background: rgba(47,124,246,0.08) !important;
 }
+
+/* ── Safe Picks table — gold accent to distinguish from main ranked table ── */
+.ranked-table--safe th {
+    color: var(--accent-3);
+}
+
+.ranked-table--safe tbody tr:hover td {
+    background: rgba(242,201,76,0.08) !important;
+}
+
+.term-positive-gold { color: var(--accent-3); }
